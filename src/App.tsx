@@ -10,6 +10,7 @@ export default function App() {
   
   return (
     <Canvas>
+      {/* ADD COMPONENT HERE TO TEST */}
       <TextField />
     </Canvas>
   )

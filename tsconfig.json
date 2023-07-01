@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES6",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "ES6"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "noImplicitAny": true,
+    "removeComments": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
