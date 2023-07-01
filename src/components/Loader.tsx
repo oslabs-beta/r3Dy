@@ -10,7 +10,6 @@ export default function Loader() {
 
   const cube = useRef();
 
-  const { scale } = useSpring({ scale: active ? 1.5 : 1 })
 
 
   return (
