@@ -16,7 +16,7 @@ export default function Loader() {
   return (
     <>
     <OrbitControls makeDefault={ true }/>
-    <animated.mesh scale={ 2 } onClick={handleClick} ref={cube}>
+    <animated.mesh scale={ 2 } ref={cube}>
         <boxGeometry />
         <meshBasicMaterial wireframe={ false } color={ 'red' } />
     </animated.mesh>
