@@ -87,3 +87,12 @@ export default function Slider() {
     </>
     )
 }
+{/* <Canvas 
+    camera = { {
+      near:.1,
+      far:200,
+      position: [0, 1, 8]
+    } }
+    >
+      <Slider />
+    </Canvas> */}
