@@ -1,27 +1,18 @@
 import React from 'react'
-import { OrbitControls } from "@react-three/drei"
-import { useRef, useState } from 'react';
-import { useSpring, animated } from '@react-spring/three'
+import ChipLoader from './ChipLoader'
+import HexagonLoader from './HexagonLoader'
+import MeshLoader from './MeshLoader'
 
 
-export default function Loader() {
-  
-  const [active, setActive] = useState(false);
-
-  const cube = useRef();
-
-  const { scale } = useSpring({ scale: active ? 1.5 : 1 })
-
-
-  return (
-    <>
-    <OrbitControls makeDefault={ true }/>
-    <animated.mesh scale={ 2 } onClick={handleClick} ref={cube}>
-        <boxGeometry />
-        <meshBasicMaterial wireframe={ false } color={ 'red' } />
-    </animated.mesh>
-    </>
-  )
+export default function Loader(props: any) {
+    const loader: number = props.loader || 1
+    if (loader === 1) {
+        return <HexagonLoader {...props} />
+    } else if (loader === 2) {
+        return <ChipLoader {...props} />
+    } else if (loader === 3) {
+        return <MeshLoader {...props} />
+    } else {
+        return <HexagonLoader {...props} />
+    }
 }
-
-
