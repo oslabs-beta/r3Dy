@@ -1,15 +1,13 @@
 import { Canvas } from '@react-three/fiber'
-
-//IMPORT COMPONENTS
-// import TextField from './components/TextField';
-
-
+import Loader from './components/Loader'
+import { OrbitControls } from '@react-three/drei'
+import { MeshLambertMaterial, MeshMatcapMaterial, MeshPhysicalMaterial, MeshToonMaterial } from 'three'
 
 export default function App() {
   
   return (
-    <Canvas>
-      {/* ADD COMPONENT HERE TO TEST */}
-    </Canvas>
+  <Canvas>
+
+  </Canvas>
   )
 }
