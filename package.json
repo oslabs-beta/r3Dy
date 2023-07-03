@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@splinetool/loader": "^0.9.375",
+    "@use-gesture/react": "^10.2.27",
+    "i": "^0.3.7",
+    "leva": "^0.9.35",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "three": "^0.154.0"
   },
   "devDependencies": {
     "@react-three/drei": "^9.77.7",
