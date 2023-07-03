@@ -35,7 +35,7 @@ const materialAll = new material({color: color});
    if (rotationDirection === 'negative') {
     loader.current.rotation[rotationAxis] += delta * rotationSpeed * -speed 
    } else {
-    loader.current.rotation[rotationAxis] += delta * rotationSpeed * speed
+    loader.current.rotation[rotationAxis] += delta * rotationSpeed * speed 
    }
  })
 

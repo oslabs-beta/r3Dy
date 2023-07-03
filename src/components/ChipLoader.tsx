@@ -38,7 +38,7 @@ const materialAll = new material({color: color});
    const rotationSpeed: number = fancyAnimation ? Math.abs(Math.sin(state.clock.elapsedTime)) : 1
 
    if (rotationDirection === 'negative') {
-    chips.current.rotation[rotationAxis] += delta * rotationSpeed * -speed 
+    chips.current.rotation[rotationAxis] += delta * rotationSpeed * -speed
    } else {
     chips.current.rotation[rotationAxis] += delta * rotationSpeed * speed
    }
