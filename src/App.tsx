@@ -11,7 +11,7 @@ export default function App() {
   
   return (
   <Canvas>
-    <Loader loader={3} rotationAxis='z' fancyAnimation={true} speed={10} color={'darkgrey'}/>
+   
   </Canvas>
   )
 }
