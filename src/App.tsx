@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-<<<<<<< HEAD
+import React, {useState} from 'react';
 import Loader from './components/Loader'
 import TextField from './components/TextField'
 import { OrbitControls } from '@react-three/drei'
@@ -7,35 +7,23 @@ import Slider from'./components/Slider'
 import { MeshBasicMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshPhysicalMaterial, MeshToonMaterial } from 'three'
 import Switch from './components/Switch'
 import Button from './components/Button'
-=======
-
-//IMPORT COMPONENTS
-// import Button from './components/Button';
-// import TextField from './components/TextField';
-// import Loader from './components/Loader';
-// import Slider from './components/Slider';
-// import Switch from './components/Switch';
-
-
->>>>>>> 1ef4ba61fdae402e4524f420737ce6958f45cbed
 
 export default function App() {
-  
+
+  const [slider, setSlider] = useState(0);
   return (
-<<<<<<< HEAD
-  <Canvas>
-   
-  </Canvas>
-=======
-    <Canvas shadows>
-
-      {/* <Loader/>
-      <Button/> */}
-      {/* <TextField /> */}
-      {/* <Slider/>
-      <Switch/> */}
-
+    <Canvas 
+    camera = { {
+      near:.1,
+      far:200,
+      position: [0, 1, 8]
+    } }
+    >
+      <Slider 
+      onChange={setSlider}
+      // maxValue={10}
+      // steps={2}
+      value={slider} />
     </Canvas>
->>>>>>> 1ef4ba61fdae402e4524f420737ce6958f45cbed
   )
 }
