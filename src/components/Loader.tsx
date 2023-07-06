@@ -13,6 +13,7 @@ type LoaderProps = {
     theme?: string;
     material?: any;
     loader?: number;
+    wireframe?: boolean;
   }
 
 
