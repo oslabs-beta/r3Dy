@@ -6,7 +6,21 @@ import React, { useRef } from "react";
 import { useGLTF, OrthographicCamera, MeshDistortMaterial } from "@react-three/drei";
 import { useFrame } from '@react-three/fiber'
 import { MeshBasicMaterial, MeshDepthMaterial, MeshLambertMaterial, MeshStandardMaterial, MeshToonMaterial, MeshMatcapMaterial } from "three";
-export default function ChipLoader(props: any) {
+
+type LoaderProps = {
+  color?: string;
+  scale?: number;
+  rotationAxis?: string;
+  rotationDirection? : string;
+  fancyAnimation?: boolean;
+  speed?: number;
+  theme?: string;
+  material?: any;
+  wireframe?: boolean;
+}
+
+
+export default function ChipLoader(props: LoaderProps) {
 
  const chips = useRef();
 
@@ -14,10 +28,11 @@ export default function ChipLoader(props: any) {
 
 const scale: number = props.scale/100 || 0.01
 const material = props.material || MeshMatcapMaterial
-const speed: number = props.speed || 2
-const rotationAxis: string = props.rotationAxis || 'y'
+const speed: number = props.speed || 5
+const rotationAxis: string = props.rotationAxis || 'z'
 const rotationDirection: string = props.rotationDirection || 'negative'
 const fancyAnimation: boolean = props.fancyAnimation || false;
+const wireframe: boolean = props.wireframe || false;
 
 
 let color = props.color || 'cyan'
@@ -29,20 +44,29 @@ if (!props.color && props.theme) {
     }
 }
 
-const materialAll = new material({color: color});
+const materialAll = new material({color: color, wireframe: wireframe });
 
 
-// animation logic
- useFrame((state, delta) => {
+useFrame((state, delta) => {
 
-   const rotationSpeed: number = fancyAnimation ? Math.abs(Math.sin(state.clock.elapsedTime)) : 1
+  const rotationSpeed: number = fancyAnimation ? Math.abs(Math.sin(state.clock.elapsedTime)/Math.PI) - (0.0004 * state.clock.elapsedTime) : 1
 
-   if (rotationDirection === 'negative') {
+  if (rotationDirection === 'negative' && fancyAnimation) {
     chips.current.rotation[rotationAxis] += delta * rotationSpeed * -speed
-   } else {
+   } else if (rotationDirection === 'positive' && fancyAnimation){
     chips.current.rotation[rotationAxis] += delta * rotationSpeed * speed
    }
- })
+
+  if (rotationDirection === 'negative' && !fancyAnimation) {
+   chips.current.rotation[rotationAxis] += (delta * rotationSpeed * -speed)/Math.PI
+  } else if (rotationDirection === 'positive' && !fancyAnimation){
+   chips.current.rotation[rotationAxis] += (delta * rotationSpeed * speed)/Math.PI
+  }
+})
+
+
+
+
 
 
   const { nodes } = useGLTF("/chipLoader.gltf");
