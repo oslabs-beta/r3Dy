@@ -21,8 +21,8 @@ export default function MeshLoader(props: LoaderProps) {
   const model = useRef()
 const scale: number = props.scale/50 || 0.025
 const material = props.material || MeshMatcapMaterial
-const speed: number = props.speed || 2
-const rotationAxis: string = props.rotationAxis || 'y'
+const speed: number = props.speed || 5
+const rotationAxis: string = props.rotationAxis || 'z'
 const rotationDirection: string = props.rotationDirection || 'negative'
 const fancyAnimation: boolean = props.fancyAnimation || false;
 

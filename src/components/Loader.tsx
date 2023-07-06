@@ -19,12 +19,12 @@ type LoaderProps = {
 export default function Loader(props: LoaderProps) {
     const loader: number = props.loader || 1
     if (loader === 1) {
-        return <HexagonLoader {...props} />
-    } else if (loader === 2) {
         return <ChipLoader {...props} />
+    } else if (loader === 2) {
+        return <HexagonLoader {...props} />
     } else if (loader === 3) {
         return <MeshLoader {...props} />
     } else {
-        return <HexagonLoader {...props} />
+        return <ChipLoader {...props} />
     }
 }

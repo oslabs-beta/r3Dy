@@ -22,7 +22,7 @@ export default function HexagonLoader( props: LoaderProps ) {
 const scale: number = props.scale/85 || 0.01
 const loader = useRef();
 const material = props.material || MeshMatcapMaterial
-const speed: number = props.speed || 2
+const speed: number = props.speed || 5
 const rotationAxis: string = props.rotationAxis || 'y'
 const rotationDirection: string = props.rotationDirection || 'negative'
 const fancyAnimation: boolean = props.fancyAnimation || false;
