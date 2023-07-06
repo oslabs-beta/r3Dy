@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
-import { Text, OrbitControls, Html, RoundedBox } from '@react-three/drei'
-import { Mesh, MeshStandardMaterial, Group } from 'three'
+import { useHelper, Text, OrbitControls, Html, RoundedBox} from '@react-three/drei'
+import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial } from 'three'
 import { useSpring, animated, config } from '@react-spring/three'
 
 //DEFINE TYPE FOR COMPONENT PROPS
@@ -21,25 +21,19 @@ const inputStyles = {
 }
 
 // HELP FUNC TO CONVERT STRING COLOR TO HEX CODE
-const getHexColor = (colorStr: string): string => {
-    const a = document.createElement('div');
-    a.style.color = colorStr;
-    const computedStyle = window.getComputedStyle(a);
-    const colorValues = computedStyle.color.match(/\d+/g);
-    let colors: number[];
-    if (colorValues) {
-      colors = colorValues.map((value) => parseInt(value, 10));
-      document.body.removeChild(a);
-      return '#' + (((1 << 24) + (colors[0] << 16) + (colors[1] << 8) + colors[2]).toString(16).substr(1));
-    }
-    return '#CED4DA'
-}
+// const getHexColor = (colorStr: string): string => {
+//     const a = document.createElement('div');
+//     a.style.color = colorStr;
+//     const colors = window.getComputedStyle( document.body.appendChild(a) ).color.match(/\d+/g).map(function(a){ return parseInt(a,10); });
+//     document.body.removeChild(a);
+//     return '#' + (((1 << 24) + (colors[0] << 16) + (colors[1] << 8) + colors[2]).toString(16));
+// }
 
 // CREATES DARKER COLOR SHADE TO DISPLAY ON CLICK
 const newShade = (hexColor: string, magnitude: number): string => {
-    if (!hexColor.includes('#')) {
-        hexColor = getHexColor(hexColor);
-    }
+    // if (!hexColor.includes('#')) {
+    //     hexColor = getHexColor(hexColor);
+    // }
     hexColor = hexColor.replace(`#`, ``);
     if (hexColor.length === 6) {
         const decimalColor = parseInt(hexColor, 16);
@@ -69,6 +63,10 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
   const meshRef = useRef<MeshStandardMaterial>(null!);
   const boxRef = useRef<Mesh>(null!);
   const groupRef = useRef<Group>(null!);
+  const lightRef = useRef<DirectionalLight>(null!);
+
+  // HELPER TO DISPLAY LIGHT POSITION
+  // useHelper(lightRef, DirectionalLightHelper, 2)
 
   // SET MAXIMUM HEIGHT FOR TEXT FIELD TO 5
   if (height && height > 5) height = 5;
@@ -83,6 +81,9 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
   if (backgroundColor) {
    backgroundColorSecondary = newShade(backgroundColor, -50);
   }
+
+  const defaultBG = '#F4FAFF'
+  const defaultSecondaryBG = '#DDDFE1'
 
   // SET ROTATION Y AND X VALUES FOR GROUP
   const {rotationY, rotationX} = useSpring({ 
@@ -101,11 +102,11 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
   }
   
   const handleFocus = (): void => {
-    meshRef.current.color.set(backgroundColor ? backgroundColorSecondary : '#CED4DA');
+    meshRef.current.color.set(backgroundColor ? backgroundColorSecondary : defaultSecondaryBG);
   }
 
   const handleUnfocused = (): void => {
-    meshRef.current.color.set(backgroundColor ? backgroundColor : '#F8F9FA');
+    meshRef.current.color.set(backgroundColor ? backgroundColor : defaultBG);
   }
 
   return (
@@ -113,12 +114,14 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
     <OrbitControls />
     <directionalLight
           intensity={0.7}
-          rotation={[-0.888, 0.368, 1.286]}
-          position={[400, 320, 230]}
+          position={[5, 2, 5]}
+          ref={lightRef}
+          castShadow
+          shadow-mapSize={[ 1024, 1024 ]}
         />
-    <hemisphereLight intensity={0.75} color="#F8F9FA" />
+    <ambientLight intensity={1} color="#FFFFFF" />
         <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} >
-            <mesh castShadow receiveShadow>
+            <mesh castShadow>
                 <Html center >
                     <input type="text" style={inputStyles} onChange={handleType} onFocus={() => {
                         handleFocus()
@@ -128,15 +131,14 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
                             setActive(false)
                             }} value={type}></input>
                 </Html>
-                <Text fontSize={0.5} castShadow position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth - 0.5} textAlign='left' overflowWrap='break-word'>{ type }</Text>
+                <Text castShadow fontSize={0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth - 0.5} textAlign='left' overflowWrap='break-word'>{ type }</Text>
             </mesh>
-            <mesh position-z={ -.3 }  castShadow receiveShadow ref = { boxRef }>
-            <RoundedBox args={ [boxWidth, boxHeight, boxDepth] } castShadow receiveShadow smoothness={4}> 
-                <meshStandardMaterial color={ backgroundColor ? backgroundColor : '#F8F9FA'} ref={ meshRef } />
+            <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
+            <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 
+                <meshStandardMaterial data-cy='material' color={ backgroundColor ? backgroundColor : defaultBG} ref={ meshRef } />
             </RoundedBox>
             </mesh>
         </animated.group>
-
     </>
   )
 }

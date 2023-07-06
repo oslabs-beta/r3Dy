@@ -9,7 +9,11 @@ body,
     left: 0;
     width: 100%;
     height: 100%;
+<<<<<<< HEAD
     background: navy
+=======
+    background: #D3D3D3
+>>>>>>> 1ef4ba61fdae402e4524f420737ce6958f45cbed
 }
 
 .label > div
