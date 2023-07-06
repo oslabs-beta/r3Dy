@@ -15,6 +15,7 @@ type LoaderProps = {
   speed?: number;
   theme?: string;
   material?: any;
+  wireframe?: boolean;
 }
 
 export default function HexagonLoader( props: LoaderProps ) {
@@ -26,6 +27,7 @@ const speed: number = props.speed || 5
 const rotationAxis: string = props.rotationAxis || 'y'
 const rotationDirection: string = props.rotationDirection || 'negative'
 const fancyAnimation: boolean = props.fancyAnimation || false;
+const wireframe: boolean = props.wireframe || false;
 
 
 let color = props.color || 'cyan'
@@ -37,7 +39,7 @@ if (!props.color && props.theme) {
     }
 }
 
-const materialAll = new material({color: color});
+const materialAll = new material({color: color, wireframe: wireframe});
 
 
 // animation logic
