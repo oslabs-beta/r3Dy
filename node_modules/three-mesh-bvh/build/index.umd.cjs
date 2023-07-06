@@ -2272,15 +2272,19 @@
 
 	// Ripped and modified From THREE.js Mesh raycast
 	// https://github.com/mrdoob/three.js/blob/0aa87c999fe61e216c1133fba7a95772b503eddf/src/objects/Mesh.js#L115
-	const vA = /* @__PURE__ */ new three.Vector3();
-	const vB = /* @__PURE__ */ new three.Vector3();
-	const vC = /* @__PURE__ */ new three.Vector3();
+	const _vA = /* @__PURE__ */ new three.Vector3();
+	const _vB = /* @__PURE__ */ new three.Vector3();
+	const _vC = /* @__PURE__ */ new three.Vector3();
 
-	const uvA = /* @__PURE__ */ new three.Vector2();
-	const uvB = /* @__PURE__ */ new three.Vector2();
-	const uvC = /* @__PURE__ */ new three.Vector2();
+	const _uvA = /* @__PURE__ */ new three.Vector2();
+	const _uvB = /* @__PURE__ */ new three.Vector2();
+	const _uvC = /* @__PURE__ */ new three.Vector2();
 
-	const intersectionPoint = /* @__PURE__ */ new three.Vector3();
+	const _normalA = /* @__PURE__ */ new three.Vector3();
+	const _normalB = /* @__PURE__ */ new three.Vector3();
+	const _normalC = /* @__PURE__ */ new three.Vector3();
+
+	const _intersectionPoint = /* @__PURE__ */ new three.Vector3();
 	function checkIntersection( ray, pA, pB, pC, point, side ) {
 
 		let intersect;
@@ -2307,23 +2311,48 @@
 
 	}
 
-	function checkBufferGeometryIntersection( ray, position, uv, a, b, c, side ) {
+	function checkBufferGeometryIntersection( ray, position, normal, uv, uv1, a, b, c, side ) {
 
-		vA.fromBufferAttribute( position, a );
-		vB.fromBufferAttribute( position, b );
-		vC.fromBufferAttribute( position, c );
+		_vA.fromBufferAttribute( position, a );
+		_vB.fromBufferAttribute( position, b );
+		_vC.fromBufferAttribute( position, c );
 
-		const intersection = checkIntersection( ray, vA, vB, vC, intersectionPoint, side );
+		const intersection = checkIntersection( ray, _vA, _vB, _vC, _intersectionPoint, side );
 
 		if ( intersection ) {
 
 			if ( uv ) {
 
-				uvA.fromBufferAttribute( uv, a );
-				uvB.fromBufferAttribute( uv, b );
-				uvC.fromBufferAttribute( uv, c );
+				_uvA.fromBufferAttribute( uv, a );
+				_uvB.fromBufferAttribute( uv, b );
+				_uvC.fromBufferAttribute( uv, c );
 
-				intersection.uv = three.Triangle.getUV( intersectionPoint, vA, vB, vC, uvA, uvB, uvC, new three.Vector2( ) );
+				intersection.uv = three.Triangle.getInterpolation( _intersectionPoint, _vA, _vB, _vC, _uvA, _uvB, _uvC, new three.Vector2() );
+
+			}
+
+			if ( uv1 ) {
+
+				_uvA.fromBufferAttribute( uv1, a );
+				_uvB.fromBufferAttribute( uv1, b );
+				_uvC.fromBufferAttribute( uv1, c );
+
+				intersection.uv1 = three.Triangle.getInterpolation( _intersectionPoint, _vA, _vB, _vC, _uvA, _uvB, _uvC, new three.Vector2() );
+
+			}
+
+			if ( normal ) {
+
+				_normalA.fromBufferAttribute( normal, a );
+				_normalB.fromBufferAttribute( normal, b );
+				_normalC.fromBufferAttribute( normal, c );
+
+				intersection.normal = three.Triangle.getInterpolation( _intersectionPoint, _vA, _vB, _vC, _normalA, _normalB, _normalC, new three.Vector3() );
+				if ( intersection.normal.dot( ray.direction ) > 0 ) {
+
+					intersection.normal.multiplyScalar( - 1 );
+
+				}
 
 			}
 
@@ -2335,7 +2364,7 @@
 				materialIndex: 0
 			};
 
-			three.Triangle.getNormal( vA, vB, vC, face.normal );
+			three.Triangle.getNormal( _vA, _vB, _vC, face.normal );
 
 			intersection.face = face;
 			intersection.faceIndex = a;
@@ -2354,7 +2383,8 @@
 		const b = geo.index.getX( triOffset + 1 );
 		const c = geo.index.getX( triOffset + 2 );
 
-		const intersection = checkBufferGeometryIntersection( ray, geo.attributes.position, geo.attributes.uv, a, b, c, side );
+		const { position, normal, uv, uv1 } = geo.attributes;
+		const intersection = checkBufferGeometryIntersection( ray, position, normal, uv, uv1, a, b, c, side );
 
 		if ( intersection ) {
 
@@ -2534,7 +2564,7 @@
 			if ( target && target.uv ) uv = target.uv;
 			else uv = new three.Vector2();
 
-			three.Triangle.getUV( point, tempV1, tempV2, tempV3, tempUV1, tempUV2, tempUV3, uv );
+			three.Triangle.getInterpolation( point, tempV1, tempV2, tempV3, tempUV1, tempUV2, tempUV3, uv );
 
 		}
 
@@ -6266,7 +6296,7 @@ float bvhClosestPointToPoint(
 				// apply bone transform
 				if ( mesh.isSkinnedMesh ) {
 
-					mesh.boneTransform( i, _positionVector );
+					mesh.applyBoneTransform( i, _positionVector );
 					if ( normal ) {
 
 						boneNormalTransform( mesh, i, _normalVector );
