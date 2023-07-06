@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { OrbitControls } from "@react-three/drei"
 import * as THREE from "three";
-import {useControls} from 'leva'
+import { useControls } from 'leva'
 // import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
 import ReactDOM from "react-dom"
 import { Canvas, useThree } from "react-three-fiber"

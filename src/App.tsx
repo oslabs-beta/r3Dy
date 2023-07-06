@@ -1,4 +1,13 @@
 import { Canvas } from '@react-three/fiber'
+<<<<<<< HEAD
+import Loader from './components/Loader'
+import TextField from './components/TextField'
+import { OrbitControls } from '@react-three/drei'
+import Slider from'./components/Slider'
+import { MeshBasicMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshPhysicalMaterial, MeshToonMaterial } from 'three'
+import Switch from './components/Switch'
+import Button from './components/Button'
+=======
 
 //IMPORT COMPONENTS
 // import Button from './components/Button';
@@ -8,10 +17,16 @@ import { Canvas } from '@react-three/fiber'
 // import Switch from './components/Switch';
 
 
+>>>>>>> 1ef4ba61fdae402e4524f420737ce6958f45cbed
 
 export default function App() {
   
   return (
+<<<<<<< HEAD
+  <Canvas>
+   
+  </Canvas>
+=======
     <Canvas shadows>
 
       {/* <Loader/>
@@ -21,5 +36,6 @@ export default function App() {
       <Switch/> */}
 
     </Canvas>
+>>>>>>> 1ef4ba61fdae402e4524f420737ce6958f45cbed
   )
 }
