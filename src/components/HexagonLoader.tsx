@@ -4,7 +4,20 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF, PerspectiveCamera } from "@react-three/drei";
 import { MeshBasicMaterial, MeshToonMaterial, MeshMatcapMaterial} from "three";
 
-export default function HexagonLoader( props:any ) {
+
+
+type LoaderProps = {
+  color?: string;
+  scale?: number;
+  rotationAxis?: string;
+  rotationDirection? : string;
+  fancyAnimation?: boolean;
+  speed?: number;
+  theme?: string;
+  material?: any;
+}
+
+export default function HexagonLoader( props: LoaderProps ) {
   // color, material, speed, scale//100
 const scale: number = props.scale/85 || 0.01
 const loader = useRef();
@@ -28,16 +41,22 @@ const materialAll = new material({color: color});
 
 
 // animation logic
- useFrame((state, delta) => {
+useFrame((state, delta) => {
 
-   const rotationSpeed: number = fancyAnimation ? Math.abs(Math.sin(state.clock.elapsedTime)) : 1
+  const rotationSpeed: number = fancyAnimation ? Math.abs(Math.sin(state.clock.elapsedTime)/Math.PI) - (0.0004 * state.clock.elapsedTime) : 1
 
-   if (rotationDirection === 'negative') {
-    loader.current.rotation[rotationAxis] += delta * rotationSpeed * -speed 
-   } else {
-    loader.current.rotation[rotationAxis] += delta * rotationSpeed * speed 
+  if (rotationDirection === 'negative' && fancyAnimation) {
+    loader.current.rotation[rotationAxis] += delta * rotationSpeed * -speed
+   } else if (rotationDirection === 'positive' && fancyAnimation){
+    loader.current.rotation[rotationAxis] += delta * rotationSpeed * speed
    }
- })
+
+  if (rotationDirection === 'negative' && !fancyAnimation) {
+   loader.current.rotation[rotationAxis] += (delta * rotationSpeed * -speed)/Math.PI
+  } else if (rotationDirection === 'positive' && !fancyAnimation){
+   loader.current.rotation[rotationAxis] += (delta * rotationSpeed * speed)/Math.PI
+  }
+})
 
 
   const { nodes } = useGLTF("/loader.gltf");

@@ -3,13 +3,15 @@ import Loader from './components/Loader'
 import TextField from './components/TextField'
 import { OrbitControls } from '@react-three/drei'
 import Slider from'./components/Slider'
-import { MeshLambertMaterial, MeshMatcapMaterial, MeshPhysicalMaterial, MeshToonMaterial } from 'three'
+import { MeshBasicMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshPhysicalMaterial, MeshToonMaterial } from 'three'
+import Switch from './components/Switch'
+import Button from './components/Button'
 
 export default function App() {
   
   return (
   <Canvas>
-    <Slider/>
+    <Loader loader={3} rotationAxis='z' fancyAnimation={true} speed={10} color={'darkgrey'}/>
   </Canvas>
   )
 }
