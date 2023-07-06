@@ -135,7 +135,7 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
             <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 
-                <meshStandardMaterial data-cy='material' color={ backgroundColor ? backgroundColor : defaultBG} ref={ meshRef } />
+                <meshStandardMaterial color={ backgroundColor ? backgroundColor : defaultBG} ref={ meshRef } />
             </RoundedBox>
             </mesh>
         </animated.group>
