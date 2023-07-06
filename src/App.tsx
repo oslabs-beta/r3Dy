@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import Button from './components/Button';
 import TextField from './components/TextField';
 import Loader from './components/Loader';
-import { MeshBasicMaterial, MeshStandardMaterial } from 'three';
+import { Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three';
 import Slider from './components/Slider';
 import Switch from './components/Switch';
 
@@ -13,8 +13,8 @@ import Switch from './components/Switch';
 export default function App() {
   
   return (
-    <Canvas>
-  <Button />
+    <Canvas shadows>
+  <Switch />
     </Canvas>
   )
 }
