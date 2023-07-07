@@ -1,7 +1,8 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect} from 'react'
 import { useHelper, Text, OrbitControls, Html, RoundedBox} from '@react-three/drei'
-import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial } from 'three'
+import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial, Vector3, MathUtils } from 'three'
 import { useSpring, animated, config } from '@react-spring/three'
+import { useThree } from 'react-three-fiber'
 
 //DEFINE TYPE FOR COMPONENT PROPS
 type TextFieldProps = {
@@ -13,11 +14,10 @@ type TextFieldProps = {
     font?: string
 }
 
-// DEFAULT STYLE FOR INPUT
-const inputStyles = {
-    width: '750px',
-    height: '200px',
-    opacity: 0,
+type InputField = {
+  width: string,
+  height: string,
+  opacity: number
 }
 
 // HELP FUNC TO CONVERT STRING COLOR TO HEX CODE
@@ -58,12 +58,15 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
   // STATES
   const [type, setType] = useState(text ? text : 'Hello World');
   const [active, setActive] = useState(false);
+  const [dist, setDist] = useState(0);
   
   // REFS
+
   const meshRef = useRef<MeshStandardMaterial>(null!);
   const boxRef = useRef<Mesh>(null!);
   const groupRef = useRef<Group>(null!);
   const lightRef = useRef<DirectionalLight>(null!);
+
 
   // HELPER TO DISPLAY LIGHT POSITION
   // useHelper(lightRef, DirectionalLightHelper, 2)
@@ -75,6 +78,35 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
   const boxHeight = height ? height : 1.5;
   const boxWidth = width ? width : 10;
   const boxDepth = 0.2;
+
+
+  // GET CAMERA AND CANVAS INFO
+  const camera = useThree(state => state.camera)
+  const canvas = document.querySelector('canvas')
+
+  // USE EFFECT TO GET CURRENT BOX POSITION AND SET CAM DISTANCE
+  useEffect(() => {
+    const boxPositionZ: number = boxRef.current.position.z;
+    const camDist: number = camPositionZ - boxPositionZ;
+    setDist(camDist);
+  },[boxRef])
+
+  // MATH TO GET TEXT WIDTH AND HEIGHT
+  const vertFov = camera.fov * Math.PI / 180;
+  const textHeight = 2 * Math.tan(vertFov / 2) * dist
+  const textWidth = textHeight * camera.aspect
+  const camPositionZ: number = camera.position.z
+
+
+  const textPixelHeight = canvas?.offsetHeight * (boxHeight / textHeight)
+  const textPixelWidth = canvas?.offsetWidth * (boxWidth / textWidth)
+
+  // DEFAULT STYLE FOR INPUT
+const inputStyles: InputField = {
+  width: `${textPixelWidth}px`,
+  height: `${textPixelHeight}px`,
+  opacity: 0,
+}
 
   // DEFINE SECONDARY BACKGROUND COLOR FOR CLICK EFFECT, ONLY IF BACKGROUND COLOR IS PROVIDED
   let backgroundColorSecondary: string;
@@ -101,8 +133,9 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
     setType(e.currentTarget.value);
   }
   
-  const handleFocus = (): void => {
+  const handleFocus = (e: React.FormEvent<HTMLInputElement>): void => {
     meshRef.current.color.set(backgroundColor ? backgroundColorSecondary : defaultSecondaryBG);
+    console.log(e.currentTarget.selectionEnd)
   }
 
   const handleUnfocused = (): void => {
@@ -111,7 +144,7 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
 
   return (
     <>
-    <OrbitControls />
+    {/* <OrbitControls /> */}
     <directionalLight
           intensity={0.7}
           position={[5, 2, 5]}
@@ -123,15 +156,15 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
         <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} >
             <mesh castShadow>
                 <Html center >
-                    <input type="text" style={inputStyles} onChange={handleType} onFocus={() => {
-                        handleFocus()
+                    <input ref={inputRef} type="text" style={inputStyles} onChange={handleType} onFocus={(e: React.FormEvent<HTMLInputElement>) => {
+                        handleFocus(e)
                         setActive(true)
                         }} onBlur={() => {
                             handleUnfocused()
                             setActive(false)
                             }} value={type}></input>
                 </Html>
-                <Text castShadow fontSize={0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth - 0.5} textAlign='left' overflowWrap='break-word'>{ type }</Text>
+                <Text castShadow fontSize={0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>{ type }</Text>
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
             <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 
