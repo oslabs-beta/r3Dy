@@ -6,14 +6,16 @@ import MeshLoader from './MeshLoader'
 type LoaderProps = {
     color?: string;
     scale?: number;
-    rotationAxis?: string;
-    rotationDirection? : string;
+    rotationAxis?: 'x' | 'y' | 'z';
+    rotationDirection? : 'positive' | 'negative';
     fancyAnimation?: boolean;
     speed?: number;
     theme?: string;
-    material?: any;
+    material?: MeshBasicMaterial | MeshDepthMaterial | MeshDistanceMaterial | MeshLambertMaterial | MeshMatcapMaterial | MeshNormalMaterial | MeshPhongMaterial | MeshPhysicalMaterial | MeshStandardMaterial | MeshToonMaterial;
     loader?: number;
     wireframe?: boolean;
+    matcapIndex?: number;
+    matcapSize?: 64 | 128 | 256 | 512 | 1024;
   }
 
 

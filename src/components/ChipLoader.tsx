@@ -1,38 +1,40 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-
-import React, { useRef } from "react";
-import { useGLTF, OrthographicCamera, MeshDistortMaterial } from "@react-three/drei";
+import React from "react";
+import { useGLTF, useMatcapTexture } from "@react-three/drei";
 import { useFrame } from '@react-three/fiber'
-import { MeshBasicMaterial, MeshDepthMaterial, MeshLambertMaterial, MeshStandardMaterial, MeshToonMaterial, MeshMatcapMaterial } from "three";
+import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group } from "three";
+
 
 type LoaderProps = {
   color?: string;
   scale?: number;
-  rotationAxis?: string;
-  rotationDirection? : string;
+  rotationAxis?: 'y' | 'x' | 'z';
+  rotationDirection? : 'positive' | 'negative';
   fancyAnimation?: boolean;
   speed?: number;
   theme?: string;
-  material?: any;
+  material?: MeshBasicMaterial | MeshDepthMaterial | MeshDistanceMaterial | MeshLambertMaterial | MeshMatcapMaterial | MeshNormalMaterial | MeshPhongMaterial | MeshPhysicalMaterial | MeshStandardMaterial | MeshToonMaterial;
   wireframe?: boolean;
+  matcapIndex?: number;
+  matcapSize?: 64 | 128 | 256 | 512 | 1024;
 }
 
 
 export default function ChipLoader(props: LoaderProps) {
 
- const chips = useRef();
+  const chips = React.useRef<Group>(null);
+
 
  // props.theme indicates a default light or dark mode --- color
 
-const scale: number = props.scale/100 || 0.01
+const scale: number = props.scale ? props.scale/100 : 0.01
 const material = props.material || MeshMatcapMaterial
 const speed: number = props.speed || 5
 const rotationAxis: string = props.rotationAxis || 'z'
 const rotationDirection: string = props.rotationDirection || 'negative'
 const fancyAnimation: boolean = props.fancyAnimation || false;
 const wireframe: boolean = props.wireframe || false;
+const matcapIndex: number = props.matcapIndex || 34;
+const matcapSize: 64 | 128 | 256 | 512 | 1024 = props.matcapSize || 1024;
 
 
 let color = props.color || 'cyan'
@@ -44,32 +46,46 @@ if (!props.color && props.theme) {
     }
 }
 
-const materialAll = new material({color: color, wireframe: wireframe });
+//34 // 26
+const [matcap] = useMatcapTexture(matcapIndex, matcapSize);
+
+let materialAll;
+
+if (material === MeshMatcapMaterial) materialAll = new material({color: color, matcap: matcap});
+else if (material === MeshDistanceMaterial || material === MeshPhysicalMaterial) materialAll = new material({color: color});
+else materialAll = new material({color:color, wireframe: wireframe}) 
 
 
 useFrame((state, delta) => {
+  const rotationSpeed: number = fancyAnimation ? Math.abs(Math.sin(state.clock.elapsedTime) / Math.PI) - (0.0004 * state.clock.elapsedTime) : 1;
 
-  const rotationSpeed: number = fancyAnimation ? Math.abs(Math.sin(state.clock.elapsedTime)/Math.PI) - (0.0004 * state.clock.elapsedTime) : 1
+  if (chips.current) {
+    if (rotationAxis === "x" || rotationAxis === "y" || rotationAxis === "z") {
+      
+      if (rotationDirection === 'negative' && fancyAnimation) {
+        chips.current.rotation[rotationAxis] += delta * rotationSpeed * -speed;
+      } else if (rotationDirection === 'positive' && fancyAnimation) {
+        chips.current.rotation[rotationAxis] += delta * rotationSpeed * speed;
+      }
 
-  if (rotationDirection === 'negative' && fancyAnimation) {
-    chips.current.rotation[rotationAxis] += delta * rotationSpeed * -speed
-   } else if (rotationDirection === 'positive' && fancyAnimation){
-    chips.current.rotation[rotationAxis] += delta * rotationSpeed * speed
-   }
-
-  if (rotationDirection === 'negative' && !fancyAnimation) {
-   chips.current.rotation[rotationAxis] += (delta * rotationSpeed * -speed)/Math.PI
-  } else if (rotationDirection === 'positive' && !fancyAnimation){
-   chips.current.rotation[rotationAxis] += (delta * rotationSpeed * speed)/Math.PI
+      if (rotationDirection === 'negative' && !fancyAnimation) {
+        chips.current.rotation[rotationAxis] += (delta * rotationSpeed * -speed) / Math.PI;
+      } else if (rotationDirection === 'positive' && !fancyAnimation) {
+        chips.current.rotation[rotationAxis] += (delta * rotationSpeed * speed) / Math.PI;
+      }
+    }
   }
-})
+});
 
 
 
 
 
 
-  const { nodes } = useGLTF("/chipLoader.gltf");
+
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { nodes } = useGLTF("/chipLoader.gltf") as any;
   return (
     <group {...props} dispose={null}>   
         <group scale={scale} rotation={[Math.PI/2,0,0]} ref={chips}>
