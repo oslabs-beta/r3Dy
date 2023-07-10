@@ -1,23 +1,24 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect} from 'react'
 import { useHelper, Text, OrbitControls, Html, RoundedBox} from '@react-three/drei'
-import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial } from 'three'
+import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial, Vector3, MathUtils, PerspectiveCamera } from 'three'
 import { useSpring, animated, config } from '@react-spring/three'
+import { useThree } from 'react-three-fiber'
 
 //DEFINE TYPE FOR COMPONENT PROPS
 type TextFieldProps = {
-    color?: string
-    width?: number;
-    height?: number;
-    backgroundColor?: string;
-    text? : string
-    font?: string
+    color?: string,
+    width?: number,
+    height?: number,
+    backgroundColor?: string,
+    font?: string,
+    fontSize?: number,
+    onChange?: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
-// DEFAULT STYLE FOR INPUT
-const inputStyles = {
-    width: '750px',
-    height: '200px',
-    opacity: 0,
+type InputField = {
+  width: string,
+  height: string,
+  opacity: number
 }
 
 // HELP FUNC TO CONVERT STRING COLOR TO HEX CODE
@@ -53,17 +54,21 @@ const newShade = (hexColor: string, magnitude: number): string => {
 };
 
 // COMPONENT FUNC DEFINITION START
-const TextField = ({color, width, height, backgroundColor, text, font}: TextFieldProps): JSX.Element => {
+const TextField = ({color, width, height, backgroundColor, font, fontSize, onChange}: TextFieldProps): JSX.Element => {
   
   // STATES
-  const [type, setType] = useState(text ? text : 'Hello World');
+  const [type, setType] = useState('');
   const [active, setActive] = useState(false);
+  const [dist, setDist] = useState(0);
+  const [caretIndex, setCaretIndex] = useState(0);
+  const [showCaret, setShowCaret] = useState(true);
   
   // REFS
   const meshRef = useRef<MeshStandardMaterial>(null!);
   const boxRef = useRef<Mesh>(null!);
   const groupRef = useRef<Group>(null!);
   const lightRef = useRef<DirectionalLight>(null!);
+
 
   // HELPER TO DISPLAY LIGHT POSITION
   // useHelper(lightRef, DirectionalLightHelper, 2)
@@ -75,6 +80,39 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
   const boxHeight = height ? height : 1.5;
   const boxWidth = width ? width : 10;
   const boxDepth = 0.2;
+
+  // GET CAMERA AND CANVAS INFO
+  const { camera }: { camera: PerspectiveCamera } = useThree();
+  const canvas: HTMLCanvasElement | null = document.querySelector('canvas')
+
+  // USE EFFECT TO GET CURRENT BOX POSITION AND SET CAM DISTANCE
+  useEffect((): void => {
+    const boxPositionZ: number = boxRef.current.position.z;
+    const camDist: number = camPositionZ - boxPositionZ;
+    setDist(camDist);
+  },[boxRef])
+
+  // MATH TO GET TEXT WIDTH AND HEIGHT
+  const vertFov = camera.fov * Math.PI / 180;
+  const textHeight = 2 * Math.tan(vertFov / 2) * dist
+  const textWidth = textHeight * camera.aspect
+  const camPositionZ: number = camera.position.z
+
+  const textPixelHeight: number = canvas ? canvas.offsetHeight * (boxHeight / textHeight) : 0
+  const textPixelWidth: number = canvas ? canvas.offsetWidth * (boxWidth / textWidth) : 0
+
+  //BUILD 3D TEXT - USING TYPE AND CARET INDEX
+  let displayText = '';
+  const typeArray: string[] = type.split('');
+  const typeWithCaret: string[] = [...typeArray.slice(0, caretIndex) , '|' , ...typeArray.slice(caretIndex)];
+  displayText = showCaret ? typeWithCaret.join('') : type;
+
+  // DEFAULT STYLE FOR INPUT
+  const inputStyles: InputField = {
+    width: `${textPixelWidth}px`,
+    height: `${textPixelHeight}px`,
+    opacity: 0,
+  }
 
   // DEFINE SECONDARY BACKGROUND COLOR FOR CLICK EFFECT, ONLY IF BACKGROUND COLOR IS PROVIDED
   let backgroundColorSecondary: string;
@@ -97,21 +135,29 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
 
 
   // HANDLE FUNCTIONS
+
+  const handleKeyUp = (e: React.FormEvent<HTMLInputElement>): void => {
+    if (e.currentTarget.selectionStart) setCaretIndex(e.currentTarget.selectionStart);
+  }
+
   const handleType = (e: React.FormEvent<HTMLInputElement>) => {
     setType(e.currentTarget.value);
+    if (onChange) onChange(e);
   }
   
   const handleFocus = (): void => {
     meshRef.current.color.set(backgroundColor ? backgroundColorSecondary : defaultSecondaryBG);
+    setShowCaret(true);
   }
 
   const handleUnfocused = (): void => {
     meshRef.current.color.set(backgroundColor ? backgroundColor : defaultBG);
+    setShowCaret(false);
   }
-
+  
   return (
     <>
-    <OrbitControls />
+    {/* <OrbitControls /> */}
     <directionalLight
           intensity={0.7}
           position={[5, 2, 5]}
@@ -119,19 +165,22 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
           castShadow
           shadow-mapSize={[ 1024, 1024 ]}
         />
-    <ambientLight intensity={1} color="#FFFFFF" />
+    <ambientLight intensity={1} color="#E6F0FF" />
         <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} >
             <mesh castShadow>
                 <Html center >
-                    <input type="text" style={inputStyles} onChange={handleType} onFocus={() => {
+                    <input onKeyUp={handleKeyUp} type="text" style={inputStyles} onChange={handleType} onFocus={() => {
                         handleFocus()
                         setActive(true)
                         }} onBlur={() => {
                             handleUnfocused()
                             setActive(false)
-                            }} value={type}></input>
+                            }}></input>
                 </Html>
-                <Text castShadow fontSize={0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth - 0.5} textAlign='left' overflowWrap='break-word'>{ type }</Text>
+                <Text castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                { displayText }
+                <meshBasicMaterial toneMapped={false}/>
+                </Text>
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
             <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 

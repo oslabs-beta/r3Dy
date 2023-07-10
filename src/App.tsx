@@ -7,14 +7,22 @@ import Loader from './components/Loader';
 import { Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshToonMaterial } from 'three';
 import Slider from './components/Slider';
 import Switch from './components/Switch';
-import { useState } from 'react';
+import { Perf } from 'r3f-perf'
 
+type camConfig = {
+ fov: 75 | number,
+ near: 0.1 | number,
+ far: 1000 | number,
+ position: [0, 0, 5] | [number, number, number]
+}
 
 export default function App() {
 
+  const camConfig: camConfig = { fov: 75, near: 0.1, far: 1000, position: [0, 0, 5] }
+
   return (
-    <Canvas>
-    <Loader />
+    <Canvas shadows camera={camConfig}>
+      <Perf/>
     </Canvas>
   )
 }

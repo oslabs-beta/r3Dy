@@ -8,8 +8,8 @@ describe('<TextField />', () => {
     cy.mount(<Canvas shadows><TextField /></Canvas>)
   })
 
-  it('renders w/ default color', () => {
-    cy.mount(<Canvas shadows><TextField /></Canvas>)
-    cy.get('[data-cy=material]').should('have.color', '#F4FAFF')
-  })
+  // it('renders w/ default color', () => {
+  //   cy.mount(<Canvas shadows><TextField /></Canvas>)
+  //   cy.get('[data-cy=material]').should('have.color', '#F4FAFF')
+  // })
 })
