@@ -1,9 +1,7 @@
 import { OrbitControls, Text } from "@react-three/drei"
 import * as THREE from "three";
-import {useControls} from 'leva'
 // import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
-import ReactDOM from "react-dom"
-import { Canvas, useThree } from "react-three-fiber"
+import { useThree } from "react-three-fiber"
 import { useGesture } from "@use-gesture/react"
 import { useSpring, animated } from '@react-spring/three'
 
@@ -56,14 +54,14 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     })
     // console.log(spring.position)
 
-    const {position} = useControls({
-        position:{
-            value:-6,
-            min: -6,
-            max: 6,
-            step: 1
-        }
-    })
+    // const {position} = useControls({
+    //     position:{
+    //         value:-6,
+    //         min: -6,
+    //         max: 6,
+    //         step: 1
+    //     }
+    // })
 // console.log(...spring)
     return(
     <>
@@ -75,11 +73,11 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
                 <planeGeometry args ={[3.9,.25]} />
                 <meshBasicMaterial wireframe={ false } color={ 'red' } />
             </mesh>
-            <animated.mesh  {...spring} {...bind()} castShadow>
+            <animated.mesh  {...spring as any} {...bind()} castShadow>
                 <sphereGeometry args ={[1,32,16]} />
                 <meshBasicMaterial wireframe={ false } color={ 'aqua' } />
             </animated.mesh>
-            <animated.mesh  {...spring} {...bind()}>
+            <animated.mesh  {...spring as any} {...bind()}>
                 <Text fontSize={.5}  castShadow position-y={1.5}  color={'black'} font={'fonts/Inter-Bold.ttf'}  overflowWrap='break-word'>{value}</Text>
                 <meshBasicMaterial wireframe={ false } color={ 'black' } />
             </animated.mesh>
