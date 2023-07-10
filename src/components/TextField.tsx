@@ -6,12 +6,12 @@ import { useThree } from 'react-three-fiber'
 
 //DEFINE TYPE FOR COMPONENT PROPS
 type TextFieldProps = {
-    color?: string
-    width?: number;
-    height?: number;
-    backgroundColor?: string;
-    text? : string
-    font?: string
+    color?: string,
+    width?: number,
+    height?: number,
+    backgroundColor?: string,
+    font?: string,
+    onChange?: () => void,
 }
 
 type InputField = {
@@ -53,12 +53,14 @@ const newShade = (hexColor: string, magnitude: number): string => {
 };
 
 // COMPONENT FUNC DEFINITION START
-const TextField = ({color, width, height, backgroundColor, text, font}: TextFieldProps): JSX.Element => {
+const TextField = ({color, width, height, backgroundColor, font}: TextFieldProps): JSX.Element => {
   
   // STATES
-  const [type, setType] = useState(text ? text : 'Hello World');
+  const [type, setType] = useState('');
   const [active, setActive] = useState(false);
   const [dist, setDist] = useState(0);
+  const [caretIndex, setCaretIndex] = useState(0);
+  const [showCaret, setShowCaret] = useState(true);
   
   // REFS
 
@@ -79,13 +81,12 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
   const boxWidth = width ? width : 10;
   const boxDepth = 0.2;
 
-
   // GET CAMERA AND CANVAS INFO
   const camera = useThree(state => state.camera)
   const canvas = document.querySelector('canvas')
 
   // USE EFFECT TO GET CURRENT BOX POSITION AND SET CAM DISTANCE
-  useEffect(() => {
+  useEffect((): void => {
     const boxPositionZ: number = boxRef.current.position.z;
     const camDist: number = camPositionZ - boxPositionZ;
     setDist(camDist);
@@ -97,16 +98,21 @@ const TextField = ({color, width, height, backgroundColor, text, font}: TextFiel
   const textWidth = textHeight * camera.aspect
   const camPositionZ: number = camera.position.z
 
-
   const textPixelHeight = canvas?.offsetHeight * (boxHeight / textHeight)
   const textPixelWidth = canvas?.offsetWidth * (boxWidth / textWidth)
 
+  //BUILD 3D TEXT - USING TYPE AND CARET INDEX
+  let threeDText = '';
+  const typeArray: string[] = type.split('');
+  const typeWithCaret: string[] = [...typeArray.slice(0, caretIndex) , '|' , ...typeArray.slice(caretIndex)];
+  threeDText = showCaret ? typeWithCaret.join('') : type;
+
   // DEFAULT STYLE FOR INPUT
-const inputStyles: InputField = {
-  width: `${textPixelWidth}px`,
-  height: `${textPixelHeight}px`,
-  opacity: 0,
-}
+  const inputStyles: InputField = {
+    width: `${textPixelWidth}px`,
+    height: `${textPixelHeight}px`,
+    opacity: 0,
+  }
 
   // DEFINE SECONDARY BACKGROUND COLOR FOR CLICK EFFECT, ONLY IF BACKGROUND COLOR IS PROVIDED
   let backgroundColorSecondary: string;
@@ -129,22 +135,28 @@ const inputStyles: InputField = {
 
 
   // HANDLE FUNCTIONS
+
+  const handleKeyUp = (e: React.FormEvent<HTMLInputElement>): void => {
+    setCaretIndex(e.currentTarget.selectionStart);
+  }
+
   const handleType = (e: React.FormEvent<HTMLInputElement>) => {
     setType(e.currentTarget.value);
   }
   
-  const handleFocus = (e: React.FormEvent<HTMLInputElement>): void => {
+  const handleFocus = (): void => {
     meshRef.current.color.set(backgroundColor ? backgroundColorSecondary : defaultSecondaryBG);
-    console.log(e.currentTarget.selectionEnd)
+    setShowCaret(true);
   }
 
   const handleUnfocused = (): void => {
     meshRef.current.color.set(backgroundColor ? backgroundColor : defaultBG);
+    setShowCaret(false);
   }
 
   return (
     <>
-    {/* <OrbitControls /> */}
+    <OrbitControls />
     <directionalLight
           intensity={0.7}
           position={[5, 2, 5]}
@@ -152,19 +164,19 @@ const inputStyles: InputField = {
           castShadow
           shadow-mapSize={[ 1024, 1024 ]}
         />
-    <ambientLight intensity={1} color="#FFFFFF" />
+    <ambientLight intensity={1} color="#E6F0FF" />
         <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} >
             <mesh castShadow>
                 <Html center >
-                    <input ref={inputRef} type="text" style={inputStyles} onChange={handleType} onFocus={(e: React.FormEvent<HTMLInputElement>) => {
-                        handleFocus(e)
+                    <input onKeyUp={handleKeyUp} type="text" style={inputStyles} onChange={handleType} onFocus={() => {
+                        handleFocus()
                         setActive(true)
                         }} onBlur={() => {
                             handleUnfocused()
                             setActive(false)
-                            }} value={type}></input>
+                            }}></input>
                 </Html>
-                <Text castShadow fontSize={0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>{ type }</Text>
+                <Text castShadow fontSize={0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>{ threeDText }</Text>
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
             <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 
