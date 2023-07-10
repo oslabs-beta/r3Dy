@@ -1,7 +1,7 @@
 import React from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, PerspectiveCamera, useMatcapTexture } from "@react-three/drei";
-import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group } from "three";
+import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, MeshBasicMaterialParameters, Material, Group } from "three";
 
 
 type LoaderProps = {
@@ -12,20 +12,25 @@ type LoaderProps = {
   fancyAnimation?: boolean;
   speed?: number;
   theme?: string;
-  material?: MeshBasicMaterial | MeshDepthMaterial | MeshDistanceMaterial | MeshLambertMaterial | MeshMatcapMaterial | MeshNormalMaterial | MeshPhongMaterial | MeshPhysicalMaterial | MeshStandardMaterial | MeshToonMaterial;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  material?: any;
   wireframe?: boolean;
   matcapIndex?: number;
   matcapSize?: 64 | 128 | 256 | 512 | 1024;
 }
 
+
+
 export default function HexagonLoader( props: LoaderProps ) {
+
+
   // color, material, speed, scale//100
 const scale: number = props.scale ? props.scale/85 : 0.01
 const loader = React.useRef<Group>(null);
 const material = props.material || MeshMatcapMaterial
 const speed: number = props.speed || 5
 const rotationAxis: string = props.rotationAxis || 'y'
-const rotationDirection: string = props.rotationDirection || 'negative'
+const rotationDirection: string = props.rotationDirection || 'positive'
 const fancyAnimation: boolean = props.fancyAnimation || false;
 const wireframe: boolean = props.wireframe || false;
 const matcapIndex: number = props.matcapIndex || 34;
@@ -48,6 +53,7 @@ let materialAll;
 if (material === MeshMatcapMaterial) materialAll = new material({color: color, matcap: matcap});
 else if (material === MeshDistanceMaterial || material === MeshPhysicalMaterial) materialAll = new material({color: color});
 else materialAll = new material({color:color, wireframe: wireframe}) 
+
 
 
 // animation logic
@@ -75,7 +81,7 @@ useFrame((state, delta) => {
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { nodes } = useGLTF("/loader.gltf") as any;
+  const { nodes } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/hexagonLoader.gltf") as any;
   return (
       <group scale={scale} ref={loader}>
         <ambientLight />
@@ -115,4 +121,4 @@ useFrame((state, delta) => {
   );
 }
 
-useGLTF.preload("/loader.gltf");
+useGLTF.preload("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/hexagonLoader.gltf");
