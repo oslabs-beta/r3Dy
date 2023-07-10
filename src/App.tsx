@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber'
 
 //IMPORT COMPONENTS
+import React, { useState, useEffect } from 'react'
 import Button from './components/Button';
 import TextField from './components/TextField';
 import Loader from './components/Loader';
