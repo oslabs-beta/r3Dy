@@ -157,7 +157,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
   
   return (
     <>
-    <OrbitControls />
+    {/* <OrbitControls /> */}
     <directionalLight
           intensity={0.7}
           position={[5, 2, 5]}
