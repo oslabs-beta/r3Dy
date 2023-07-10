@@ -7,6 +7,7 @@ import Loader from './components/Loader';
 import { Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three';
 import Slider from './components/Slider';
 import Switch from './components/Switch';
+import { Perf } from 'r3f-perf'
 
 type camConfig = {
  fov: 75 | number,
@@ -21,7 +22,7 @@ export default function App() {
 
   return (
     <Canvas shadows camera={camConfig}>
-  <TextField />
+      <Perf/>
     </Canvas>
   )
 }

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect} from 'react'
 import { useHelper, Text, OrbitControls, Html, RoundedBox} from '@react-three/drei'
-import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial, Vector3, MathUtils } from 'three'
+import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial, Vector3, MathUtils, PerspectiveCamera } from 'three'
 import { useSpring, animated, config } from '@react-spring/three'
 import { useThree } from 'react-three-fiber'
 
@@ -11,7 +11,8 @@ type TextFieldProps = {
     height?: number,
     backgroundColor?: string,
     font?: string,
-    onChange?: () => void,
+    fontSize?: number,
+    onChange?: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
 type InputField = {
@@ -53,7 +54,7 @@ const newShade = (hexColor: string, magnitude: number): string => {
 };
 
 // COMPONENT FUNC DEFINITION START
-const TextField = ({color, width, height, backgroundColor, font}: TextFieldProps): JSX.Element => {
+const TextField = ({color, width, height, backgroundColor, font, fontSize, onChange}: TextFieldProps): JSX.Element => {
   
   // STATES
   const [type, setType] = useState('');
@@ -63,7 +64,6 @@ const TextField = ({color, width, height, backgroundColor, font}: TextFieldProps
   const [showCaret, setShowCaret] = useState(true);
   
   // REFS
-
   const meshRef = useRef<MeshStandardMaterial>(null!);
   const boxRef = useRef<Mesh>(null!);
   const groupRef = useRef<Group>(null!);
@@ -82,8 +82,8 @@ const TextField = ({color, width, height, backgroundColor, font}: TextFieldProps
   const boxDepth = 0.2;
 
   // GET CAMERA AND CANVAS INFO
-  const camera = useThree(state => state.camera)
-  const canvas = document.querySelector('canvas')
+  const { camera }: { camera: PerspectiveCamera } = useThree();
+  const canvas: HTMLCanvasElement | null = document.querySelector('canvas')
 
   // USE EFFECT TO GET CURRENT BOX POSITION AND SET CAM DISTANCE
   useEffect((): void => {
@@ -98,14 +98,14 @@ const TextField = ({color, width, height, backgroundColor, font}: TextFieldProps
   const textWidth = textHeight * camera.aspect
   const camPositionZ: number = camera.position.z
 
-  const textPixelHeight = canvas?.offsetHeight * (boxHeight / textHeight)
-  const textPixelWidth = canvas?.offsetWidth * (boxWidth / textWidth)
+  const textPixelHeight: number = canvas ? canvas.offsetHeight * (boxHeight / textHeight) : 0
+  const textPixelWidth: number = canvas ? canvas.offsetWidth * (boxWidth / textWidth) : 0
 
   //BUILD 3D TEXT - USING TYPE AND CARET INDEX
-  let threeDText = '';
+  let displayText = '';
   const typeArray: string[] = type.split('');
   const typeWithCaret: string[] = [...typeArray.slice(0, caretIndex) , '|' , ...typeArray.slice(caretIndex)];
-  threeDText = showCaret ? typeWithCaret.join('') : type;
+  displayText = showCaret ? typeWithCaret.join('') : type;
 
   // DEFAULT STYLE FOR INPUT
   const inputStyles: InputField = {
@@ -137,11 +137,12 @@ const TextField = ({color, width, height, backgroundColor, font}: TextFieldProps
   // HANDLE FUNCTIONS
 
   const handleKeyUp = (e: React.FormEvent<HTMLInputElement>): void => {
-    setCaretIndex(e.currentTarget.selectionStart);
+    if (e.currentTarget.selectionStart) setCaretIndex(e.currentTarget.selectionStart);
   }
 
   const handleType = (e: React.FormEvent<HTMLInputElement>) => {
     setType(e.currentTarget.value);
+    if (onChange) onChange(e);
   }
   
   const handleFocus = (): void => {
@@ -153,7 +154,7 @@ const TextField = ({color, width, height, backgroundColor, font}: TextFieldProps
     meshRef.current.color.set(backgroundColor ? backgroundColor : defaultBG);
     setShowCaret(false);
   }
-
+  
   return (
     <>
     <OrbitControls />
@@ -176,7 +177,10 @@ const TextField = ({color, width, height, backgroundColor, font}: TextFieldProps
                             setActive(false)
                             }}></input>
                 </Html>
-                <Text castShadow fontSize={0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>{ threeDText }</Text>
+                <Text castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                { displayText }
+                <meshBasicMaterial toneMapped={false}/>
+                </Text>
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
             <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 
