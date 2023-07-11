@@ -9,7 +9,8 @@ import { Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshToonMaterial } from 
 import Slider from './components/Slider';
 import Switch from './components/Switch';
 import { Perf } from 'r3f-perf'
-
+import LogoLoader from './components/LogoLoader'
+import { OrbitControls } from "@react-three/drei"
 type camConfig = {
  fov: 75 | number,
  near: 0.1 | number,
@@ -24,7 +25,8 @@ export default function App() {
   return (
     <Canvas shadows camera={camConfig}>
       <Perf/>
-      <Loader loader={1}/>
+      <OrbitControls />
+      <LogoLoader />
     </Canvas>
   )
 }
