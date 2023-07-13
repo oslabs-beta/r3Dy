@@ -90,7 +90,7 @@ useFrame((state, delta) => {
     <group {...props} dispose={null}>
       <group scale={scale} rotation={[Math.PI/2, 0, 0]} position={[0,0,0]} ref={model}>
         <ambientLight 
-        intensity={0.5}
+        intensity={1}
         />
           <mesh
             castShadow

@@ -10,7 +10,7 @@ type LoaderProps = {
     rotationDirection? : 'positive' | 'negative';
     easeAnimation?: boolean;
     speed?: number;
-    theme?: string;
+    theme?: 'dark' | 'light';
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     material?: any;
     model?: number;
