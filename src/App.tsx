@@ -22,9 +22,9 @@ export default function App() {
 
   const [slider, setSlider] = useState(0);
   return (
-    <Canvas shadows camera={camConfig}>
-      <OrbitControls/>
+    <Canvas>
       <Perf/>
+      <Slider />
     </Canvas>
   )
 }
