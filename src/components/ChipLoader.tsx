@@ -1,8 +1,7 @@
 import React from "react";
 import { useGLTF, useMatcapTexture } from "@react-three/drei";
 import { useFrame } from '@react-three/fiber'
-import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group } from "three";
-
+import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group} from "three";
 
 type LoaderProps = {
   color?: string;
@@ -12,7 +11,8 @@ type LoaderProps = {
   fancyAnimation?: boolean;
   speed?: number;
   theme?: string;
-  material?: MeshBasicMaterial | MeshDepthMaterial | MeshDistanceMaterial | MeshLambertMaterial | MeshMatcapMaterial | MeshNormalMaterial | MeshPhongMaterial | MeshPhysicalMaterial | MeshStandardMaterial | MeshToonMaterial;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  material?: any;
   wireframe?: boolean;
   matcapIndex?: number;
   matcapSize?: 64 | 128 | 256 | 512 | 1024;
@@ -22,7 +22,6 @@ type LoaderProps = {
 export default function ChipLoader(props: LoaderProps) {
 
   const chips = React.useRef<Group>(null);
-
 
  // props.theme indicates a default light or dark mode --- color
 
@@ -81,11 +80,10 @@ useFrame((state, delta) => {
 
 
 
-
-
+  
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { nodes } = useGLTF("/chipLoader.gltf") as any;
+  const { nodes } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/chipLoader.gltf") as any;
   return (
     <group {...props} dispose={null}>   
         <group scale={scale} rotation={[Math.PI/2,0,0]} ref={chips}>
@@ -375,5 +373,4 @@ useFrame((state, delta) => {
   );
 }
 
-useGLTF.preload("/chipLoader.gltf");
-
+useGLTF.preload("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/chipLoader.gltf");
