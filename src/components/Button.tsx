@@ -1,5 +1,6 @@
 import { ReactElement, useState } from 'react'
 import { RoundedBox, Text } from "@react-three/drei"
+import { useSpring, animated, config } from '@react-spring/three'
 
 type ButtonProps = {
     scale?: number,
@@ -14,34 +15,35 @@ type ButtonProps = {
 export default function Button(props: ButtonProps): ReactElement {
     const [hover, setHover] = useState(false);
     
-    const scale = props.scale || 1;
-    const color = props.color || '#1976d2';
-    const hoverColor = props.hoverColor || '#1f568c';
+    const scale = props.scale || 2;
+    const color = props.color || '#3F37C9';
+    const hoverColor = props.hoverColor || '#272275';
     const text = props.text || 'BUTTON';
     const fontSize = props.fontSize || .5;
     const fontColor = props.fontColor || '#ffffff'
     const handleClick = props.handleClick || undefined;
 
     const buttonWidth = text.length * fontSize * 1.1; 
-    const buttonHeight = fontSize * 2.8; 
+    const buttonHeight = fontSize * 2.7; 
+
+  const {rotationY, rotationX} = useSpring({ 
+    rotationX: hover ? -0.1 : 0,
+    rotationY: hover ? -0.2 : 0,
+    config: config.wobbly,
+  })
 
     return <>
         <ambientLight intensity={1}/>
-        <directionalLight 
-            position={[-.5, .8, 3]} 
-            intensity={1} 
-            castShadow 
-            shadow-mapSize={2048}
-        />
-        <group
+        <animated.group
             scale={scale}
             onPointerOver={() => setHover(true)}
             onPointerOut={() => setHover(false)}
-            rotation-y={ hover ? Math.PI * .13 : 0}
             onClick={handleClick}
+            rotation-y={rotationY} 
+            rotation-x={rotationX}
         >
              <mesh >
-                <RoundedBox castShadow args={[buttonWidth, buttonHeight, .5]}>
+                <RoundedBox args={[buttonWidth, buttonHeight, .5]} radius={.2}>
                     <meshStandardMaterial color={hover ? hoverColor : color}/>
                 </RoundedBox>
             </mesh>
@@ -54,11 +56,6 @@ export default function Button(props: ButtonProps): ReactElement {
                 <meshBasicMaterial toneMapped={false}/>
                 {text}
             </Text>
-        </group>
-
-        <mesh receiveShadow position-z={-1} rotation-x ={Math.PI*2} scale={1}>  
-            <planeGeometry args={[6, 3]}/>
-            <meshStandardMaterial color="#f0f0f0" />
-        </mesh>
+        </animated.group>
     </>
 }
