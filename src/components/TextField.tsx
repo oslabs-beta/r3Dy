@@ -1,8 +1,10 @@
+import React from 'react';
 import { useState, useRef, useEffect} from 'react'
-import { useHelper, Text, OrbitControls, Html, RoundedBox} from '@react-three/drei'
-import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial, Vector3, MathUtils, PerspectiveCamera } from 'three'
+import { Text, Html, RoundedBox} from '@react-three/drei'
+import { Mesh, Group, DirectionalLight,  MeshStandardMaterial, PerspectiveCamera } from 'three'
 import { useSpring, animated, config } from '@react-spring/three'
-import { useThree } from 'react-three-fiber'
+import { useThree } from '@react-three/fiber'
+
 
 //DEFINE TYPE FOR COMPONENT PROPS
 type TextFieldProps = {
@@ -68,7 +70,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
   const boxRef = useRef<Mesh>(null!);
   const groupRef = useRef<Group>(null!);
   const lightRef = useRef<DirectionalLight>(null!);
-
+  const textRef = useRef<Text>(null!);
 
   // HELPER TO DISPLAY LIGHT POSITION
   // useHelper(lightRef, DirectionalLightHelper, 2)
@@ -135,7 +137,6 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
 
 
   // HANDLE FUNCTIONS
-
   const handleKeyUp = (e: React.FormEvent<HTMLInputElement>): void => {
     if (e.currentTarget.selectionStart) setCaretIndex(e.currentTarget.selectionStart);
   }
@@ -167,7 +168,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
         />
     <ambientLight intensity={1} color="#E6F0FF" />
         <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} >
-            <mesh castShadow>
+            <mesh castShadow >
                 <Html center >
                     <input onKeyUp={handleKeyUp} type="text" style={inputStyles} onChange={handleType} onFocus={() => {
                         handleFocus()
@@ -177,10 +178,10 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
                             setActive(false)
                             }}></input>
                 </Html>
-                <Text castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
-                { displayText }
-                <meshBasicMaterial toneMapped={false}/>
-                </Text>
+                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                  { displayText }
+                  <meshBasicMaterial toneMapped={false}/>
+                  </Text>
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
             <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 

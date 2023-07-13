@@ -8,11 +8,12 @@ type LoaderProps = {
     scale?: number;
     rotationAxis?: 'x' | 'y' | 'z';
     rotationDirection? : 'positive' | 'negative';
-    fancyAnimation?: boolean;
+    easeAnimation?: boolean;
     speed?: number;
     theme?: string;
-    material?: MeshBasicMaterial | MeshDepthMaterial | MeshDistanceMaterial | MeshLambertMaterial | MeshMatcapMaterial | MeshNormalMaterial | MeshPhongMaterial | MeshPhysicalMaterial | MeshStandardMaterial | MeshToonMaterial;
-    loader?: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    material?: any;
+    model?: number;
     wireframe?: boolean;
     matcapIndex?: number;
     matcapSize?: 64 | 128 | 256 | 512 | 1024;
@@ -20,12 +21,12 @@ type LoaderProps = {
 
 
 export default function Loader(props: LoaderProps) {
-    const loader: number = props.loader || 1
-    if (loader === 1) {
+    const model: number = props.model || 1
+    if (model === 1) {
         return <ChipLoader {...props} />
-    } else if (loader === 2) {
+    } else if (model === 2) {
         return <HexagonLoader {...props} />
-    } else if (loader === 3) {
+    } else if (model === 3) {
         return <MeshLoader {...props} />
     } else {
         return <ChipLoader {...props} />
