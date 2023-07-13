@@ -14,6 +14,7 @@ type TextFieldProps = {
     backgroundColor?: string,
     font?: string,
     fontSize?: number,
+    theme?: string,
     onChange?: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
@@ -56,7 +57,7 @@ const newShade = (hexColor: string, magnitude: number): string => {
 };
 
 // COMPONENT FUNC DEFINITION START
-const TextField = ({color, width, height, backgroundColor, font, fontSize, onChange}: TextFieldProps): JSX.Element => {
+const TextField = ({color, width, height, backgroundColor, font, fontSize, theme, onChange}: TextFieldProps): JSX.Element => {
   
   // STATES
   const [type, setType] = useState('');
@@ -71,6 +72,12 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
   const groupRef = useRef<Group>(null!);
   const lightRef = useRef<DirectionalLight>(null!);
   const textRef = useRef<Text>(null!);
+
+  // THEME 
+  if (theme === 'dark') {
+    color = '#FFFFFF'
+    backgroundColor = '#0D1B2A'
+  }
 
   // HELPER TO DISPLAY LIGHT POSITION
   // useHelper(lightRef, DirectionalLightHelper, 2)

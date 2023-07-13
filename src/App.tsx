@@ -25,7 +25,6 @@ export default function App() {
   return (
     <Canvas shadows camera={camConfig}>
       <Perf/>
-      <Loader />
     </Canvas>
   )
 }
