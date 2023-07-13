@@ -23,7 +23,7 @@ export default function Model(props) {
       
 
 //21 28 // 37? //46 crazy //  54 //62 //71
-    const test = 28
+    const test = 47
 
     const [matcap] = useMatcapTexture(test, 1024);
 
