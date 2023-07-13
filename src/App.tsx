@@ -7,6 +7,7 @@ import TextField from './components/TextField';
 import Loader from './components/Loader';
 import { Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshToonMaterial } from 'three';
 import Slider from './components/Slider';
+import Switch2 from './components/Switch2';
 import Switch from './components/Switch';
 import { Perf } from 'r3f-perf'
 import LogoLoader from './components/LogoLoader'
@@ -25,7 +26,7 @@ export default function App() {
   return (
     <Canvas shadows camera={camConfig}>
       <Perf/>
-      <Loader />
+      <Switch2 />
     </Canvas>
   )
 }

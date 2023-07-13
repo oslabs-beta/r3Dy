@@ -23,7 +23,7 @@ type SlideAnimationProps = {
 
 export default function Switch2(props: SwitchProps) {
   const [active, setActive] = useState(false);
-  const { nodes, materials } = useGLTF("/switch.gltf") as any;
+  const { nodes, materials } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/switch.gltf") as any;
   console.log(nodes.Text.material)
   nodes.Text_2.material.color.r=1
   nodes.Text_2.material.color.g=0
@@ -126,7 +126,7 @@ const slideAnimation = useSpring<SlideAnimationProps>({
   );
 }
 
-useGLTF.preload("/switch.gltf");
+useGLTF.preload("/https://raw.githubusercontent.com/alecjessen/r3dy-static/main/switch.gltf");
 
 
 // position={[-55.685, 6.186, 4.592]}
