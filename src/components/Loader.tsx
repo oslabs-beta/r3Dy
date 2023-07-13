@@ -11,7 +11,8 @@ type LoaderProps = {
     fancyAnimation?: boolean;
     speed?: number;
     theme?: string;
-    material?: MeshBasicMaterial | MeshDepthMaterial | MeshDistanceMaterial | MeshLambertMaterial | MeshMatcapMaterial | MeshNormalMaterial | MeshPhongMaterial | MeshPhysicalMaterial | MeshStandardMaterial | MeshToonMaterial;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    material?: any;
     loader?: number;
     wireframe?: boolean;
     matcapIndex?: number;
