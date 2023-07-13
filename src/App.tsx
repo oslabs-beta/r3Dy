@@ -26,7 +26,6 @@ export default function App() {
     <Canvas shadows camera={camConfig}>
       <OrbitControls/>
       <Perf/>
-      <Loader model={1} theme='dark'  />
     </Canvas>
   )
 }
