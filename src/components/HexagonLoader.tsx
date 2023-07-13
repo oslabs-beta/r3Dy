@@ -36,10 +36,13 @@ const wireframe: boolean = props.wireframe || false;
 let matcapIndex: number = props.matcapIndex || 34;
 const matcapSize: 64 | 128 | 256 | 512 | 1024 = props.matcapSize || 1024;
 
+const theme: string = props.theme || 'light'
 
-let color = props.color || 'cyan'
-if (!props.color && props.theme) {
-    if (props.theme === 'light') {
+let color = props.color || 'whitesmoke'
+
+
+if (!props.color) {
+    if (theme === 'light') {
         color = 'whitesmoke'
         matcapIndex = 21;
     } else {
@@ -47,6 +50,7 @@ if (!props.color && props.theme) {
         matcapIndex = 21;
     }
 }
+
 const [matcap] = useMatcapTexture(matcapIndex, matcapSize);
 
 let materialAll;
