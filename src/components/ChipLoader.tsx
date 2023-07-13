@@ -1,18 +1,18 @@
 import React from "react";
 import { useGLTF, useMatcapTexture } from "@react-three/drei";
 import { useFrame } from '@react-three/fiber'
-import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group } from "three";
-
+import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group} from "three";
 
 type LoaderProps = {
   color?: string;
   scale?: number;
   rotationAxis?: 'y' | 'x' | 'z';
   rotationDirection? : 'positive' | 'negative';
-  fancyAnimation?: boolean;
+  easeAnimation?: boolean;
   speed?: number;
-  theme?: string;
-  material?: MeshBasicMaterial | MeshDepthMaterial | MeshDistanceMaterial | MeshLambertMaterial | MeshMatcapMaterial | MeshNormalMaterial | MeshPhongMaterial | MeshPhysicalMaterial | MeshStandardMaterial | MeshToonMaterial;
+  theme?: 'dark' | 'light';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  material?: any;
   wireframe?: boolean;
   matcapIndex?: number;
   matcapSize?: 64 | 128 | 256 | 512 | 1024;
@@ -23,7 +23,6 @@ export default function ChipLoader(props: LoaderProps) {
 
   const chips = React.useRef<Group>(null);
 
-
  // props.theme indicates a default light or dark mode --- color
 
 const scale: number = props.scale ? props.scale/100 : 0.01
@@ -31,9 +30,9 @@ const material = props.material || MeshMatcapMaterial
 const speed: number = props.speed || 5
 const rotationAxis: string = props.rotationAxis || 'z'
 const rotationDirection: string = props.rotationDirection || 'negative'
-const fancyAnimation: boolean = props.fancyAnimation || false;
+const easeAnimation: boolean = props.easeAnimation || false;
 const wireframe: boolean = props.wireframe || false;
-const matcapIndex: number = props.matcapIndex || 34;
+let matcapIndex: number = props.matcapIndex || 34;
 const matcapSize: 64 | 128 | 256 | 512 | 1024 = props.matcapSize || 1024;
 
 
@@ -41,8 +40,10 @@ let color = props.color || 'cyan'
 if (!props.color && props.theme) {
     if (props.theme === 'light') {
         color = 'whitesmoke'
+        matcapIndex = 21;
     } else {
-        color = 'darkgrey'
+        color = 'grey'
+        matcapIndex = 21;
     }
 }
 
@@ -57,20 +58,20 @@ else materialAll = new material({color:color, wireframe: wireframe})
 
 
 useFrame((state, delta) => {
-  const rotationSpeed: number = fancyAnimation ? Math.abs(Math.sin(state.clock.elapsedTime) / Math.PI) - (0.0004 * state.clock.elapsedTime) : 1;
+  const rotationSpeed: number = easeAnimation ? Math.abs(Math.sin(state.clock.elapsedTime) / Math.PI) - (0.0004 * state.clock.elapsedTime) : 1;
 
   if (chips.current) {
     if (rotationAxis === "x" || rotationAxis === "y" || rotationAxis === "z") {
       
-      if (rotationDirection === 'negative' && fancyAnimation) {
+      if (rotationDirection === 'negative' && easeAnimation) {
         chips.current.rotation[rotationAxis] += delta * rotationSpeed * -speed;
-      } else if (rotationDirection === 'positive' && fancyAnimation) {
+      } else if (rotationDirection === 'positive' && easeAnimation) {
         chips.current.rotation[rotationAxis] += delta * rotationSpeed * speed;
       }
 
-      if (rotationDirection === 'negative' && !fancyAnimation) {
+      if (rotationDirection === 'negative' && !easeAnimation) {
         chips.current.rotation[rotationAxis] += (delta * rotationSpeed * -speed) / Math.PI;
-      } else if (rotationDirection === 'positive' && !fancyAnimation) {
+      } else if (rotationDirection === 'positive' && !easeAnimation) {
         chips.current.rotation[rotationAxis] += (delta * rotationSpeed * speed) / Math.PI;
       }
     }
@@ -81,11 +82,10 @@ useFrame((state, delta) => {
 
 
 
-
-
+  
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { nodes } = useGLTF("/chipLoader.gltf") as any;
+  const { nodes } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/chipLoader.gltf") as any;
   return (
     <group {...props} dispose={null}>   
         <group scale={scale} rotation={[Math.PI/2,0,0]} ref={chips}>
@@ -375,5 +375,4 @@ useFrame((state, delta) => {
   );
 }
 
-useGLTF.preload("/chipLoader.gltf");
-
+useGLTF.preload("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/chipLoader.gltf");
