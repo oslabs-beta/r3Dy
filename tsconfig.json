@@ -7,7 +7,8 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "removeComments": true,
-    "types": ["cypress", "node"],
+    "types": ["node"],
+    "esModuleInterop": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -23,6 +24,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "**/*.ts", "tests/TextField.cy.tsx", "tests/Switch.cy.tsx", "tests/Slider.cy.tsx", "tests/Loader.cy.tsx", "tests/Button.cy.tsx"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "**/*.ts", "jest.config.cjs",],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "exclude": ["node_modules"]
 }

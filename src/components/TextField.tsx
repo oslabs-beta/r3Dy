@@ -1,8 +1,10 @@
+import React from 'react';
 import { useState, useRef, useEffect} from 'react'
-import { useHelper, Text, OrbitControls, Html, RoundedBox} from '@react-three/drei'
-import { Mesh, Group, DirectionalLight, DirectionalLightHelper, MeshStandardMaterial, Vector3, MathUtils, PerspectiveCamera } from 'three'
+import { Text, Html, RoundedBox} from '@react-three/drei'
+import { Mesh, Group, DirectionalLight,  MeshStandardMaterial, PerspectiveCamera } from 'three'
 import { useSpring, animated, config } from '@react-spring/three'
-import { useThree } from 'react-three-fiber'
+import { useThree } from '@react-three/fiber'
+
 
 //DEFINE TYPE FOR COMPONENT PROPS
 type TextFieldProps = {
@@ -77,7 +79,6 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
   if (height && height > 5) height = 5;
 
   // DEFAULT DIMENSIONS OF BOX GEO
-  console.log(textRef.current)
   const boxHeight = height ? height : 1.5;
   const boxWidth = width ? width : 10;
   const boxDepth = 0.2;
@@ -157,7 +158,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
   
   return (
     <>
-    <OrbitControls />
+    {/* <OrbitControls /> */}
     <directionalLight
           intensity={0.7}
           position={[5, 2, 5]}
@@ -177,10 +178,10 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
                             setActive(false)
                             }}></input>
                 </Html>
-                <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
-                { displayText }
-                <meshBasicMaterial toneMapped={false}/>
-                </Text>
+                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                  { displayText }
+                  <meshBasicMaterial toneMapped={false}/>
+                  </Text>
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
             <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 
