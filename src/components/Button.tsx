@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
-import { RoundedBox, Text, OrbitControls, useHelper } from "@react-three/drei"
+import { RoundedBox, OrbitControls, Text, useHelper } from "@react-three/drei"
+import { MeshStandardMaterial } from 'three';
 import * as THREE from 'three'
  
 export default function Button(props) {
@@ -7,36 +8,55 @@ export default function Button(props) {
     
     const scale = props.scale || 1;
     const color = props.color || '#1976d2';
-    const hoverColor = props.hoverColor || '#1d6bb8';
+    const hoverColor = props.hoverColor || '#1f568c';
     const text = props.text || 'BUTTON';
     const fontSize = props.fontSize || .5;
-    const fontColor = props.fontColor || 'black'
+    const fontColor = props.fontColor || '#ffffff'
     const handleClick = props.handleClick || null;
 
     // const directionalLight = useRef();
-    // useHelper(directionalLight, THREE.DirectionalLightHelper, 1)
+    // useHelper(directionalLight, THREE.DirectionalLightHelper, .5)
+
+    // calculate button dimensions based on text length and font size 
+    const buttonWidth = text.length * fontSize * 1.1; 
+    const buttonHeight = fontSize * 2.8; 
 
     return <>
-        <OrbitControls />
-        <directionalLight castShadow position={[-.5, 1 , 2]} intensity={1} />
-        <ambientLight intensity={.5} />
-
-        <mesh
-            castShadow
+        {/* <OrbitControls /> */}
+        
+        <ambientLight intensity={1}/>
+        <directionalLight 
+            // ref={directionalLight} 
+            position={[-.5, .8, 3]} 
+            intensity={1} 
+            castShadow 
+            shadow-mapSize={2048}
+        />
+        <group
             scale={scale}
             onPointerOver={(event) => setHover(true)}
             onPointerOut={(event) => setHover(false)}
-            rotation-y={ hover ? Math.PI * .1 : 0}
+            rotation-y={ hover ? Math.PI * .13 : 0}
             onClick={handleClick}
         >
-            <RoundedBox castShadow args={[4, 1.5, .5]}>
-                <meshStandardMaterial color={hover ? hoverColor : color}/>
-            </RoundedBox>
-            <Text font={'fonts/Inter-Bold.ttf'} position-z={.4} fontSize={fontSize} color={fontColor}>{text}</Text>
-        </mesh>
+             <mesh >
+                <RoundedBox castShadow args={[buttonWidth, buttonHeight, .5]}>
+                    <meshStandardMaterial color={hover ? hoverColor : color}/>
+                </RoundedBox>
+            </mesh>
+            <Text 
+                font={'fonts/Inter-Bold.ttf'} 
+                fontSize={fontSize} 
+                color={fontColor} 
+                position-z={.3}
+            >
+                <meshBasicMaterial toneMapped={false}/>
+                {text}
+            </Text>
+        </group>
 
-        <mesh receiveShadow position-z={-.5} rotation-x ={Math.PI*2} scale={7}>
-            <planeGeometry />
+        <mesh receiveShadow position-z={-1} rotation-x ={Math.PI*2} scale={1}>  
+            <planeGeometry args={[6, 3]}/>
             <meshStandardMaterial color="#f0f0f0" />
         </mesh>
     </>

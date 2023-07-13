@@ -25,8 +25,7 @@ export default function App() {
   return (
     <Canvas shadows camera={camConfig}>
       <Perf/>
-      <OrbitControls />
-      <LogoLoader />
+      <TextField />
     </Canvas>
   )
 }
