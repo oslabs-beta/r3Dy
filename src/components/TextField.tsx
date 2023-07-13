@@ -9,6 +9,7 @@ import { useThree } from '@react-three/fiber'
 //DEFINE TYPE FOR COMPONENT PROPS
 type TextFieldProps = {
     color?: string,
+    focusColor?: string,
     width?: number,
     height?: number,
     backgroundColor?: string,
@@ -22,6 +23,10 @@ type InputField = {
   width: string,
   height: string,
   opacity: number
+}
+
+interface DreiText extends Text {
+  color?: string;
 }
 
 // HELP FUNC TO CONVERT STRING COLOR TO HEX CODE
@@ -57,7 +62,7 @@ const newShade = (hexColor: string, magnitude: number): string => {
 };
 
 // COMPONENT FUNC DEFINITION START
-const TextField = ({color, width, height, backgroundColor, font, fontSize, theme, onChange}: TextFieldProps): JSX.Element => {
+const TextField = ({color, focusColor, width, height, backgroundColor, font, fontSize, theme, onChange}: TextFieldProps): JSX.Element => {
   
   // STATES
   const [type, setType] = useState('');
@@ -71,13 +76,21 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, theme
   const boxRef = useRef<Mesh>(null!);
   const groupRef = useRef<Group>(null!);
   const lightRef = useRef<DirectionalLight>(null!);
-  const textRef = useRef<Text>(null!);
+  const textRef = useRef<DreiText>(null!);
 
-  // THEME 
+  // THEMES
+
+  let fontColor = color ? color : 'black';
+  let fontFocusColor = focusColor ? focusColor : '#3F37C9';
+  let fontBackgroundColor = backgroundColor ? backgroundColor : '#F4FAFF';
   if (theme === 'dark') {
-    color = '#FFFFFF'
-    backgroundColor = '#0D1B2A'
+    fontColor = '#FFFFFF';
+    fontFocusColor = '#4895EF';
+    fontBackgroundColor = '#0D1B2A';
   }
+
+  // DEFINE SECONDARY BACKGROUND COLOR FOR CLICK EFFECT, ONLY IF BACKGROUND COLOR IS PROVIDED
+  const backgroundColorSecondary: string = newShade(fontBackgroundColor, -50);
 
   // HELPER TO DISPLAY LIGHT POSITION
   // useHelper(lightRef, DirectionalLightHelper, 2)
@@ -123,15 +136,6 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, theme
     opacity: 0,
   }
 
-  // DEFINE SECONDARY BACKGROUND COLOR FOR CLICK EFFECT, ONLY IF BACKGROUND COLOR IS PROVIDED
-  let backgroundColorSecondary: string;
-  if (backgroundColor) {
-   backgroundColorSecondary = newShade(backgroundColor, -50);
-  }
-
-  const defaultBG = '#F4FAFF'
-  const defaultSecondaryBG = '#DDDFE1'
-
   // SET ROTATION Y AND X VALUES FOR GROUP
   const {rotationY, rotationX} = useSpring({ 
     rotationX: active ? -0.1 : 0,
@@ -154,12 +158,14 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, theme
   }
   
   const handleFocus = (): void => {
-    meshRef.current.color.set(backgroundColor ? backgroundColorSecondary : defaultSecondaryBG);
+    meshRef.current.color.set(backgroundColorSecondary);
+    textRef.current.color = fontFocusColor
     setShowCaret(true);
   }
 
   const handleUnfocused = (): void => {
-    meshRef.current.color.set(backgroundColor ? backgroundColor : defaultBG);
+    meshRef.current.color.set(fontBackgroundColor);
+    textRef.current.color = fontColor
     setShowCaret(false);
   }
   
@@ -185,14 +191,14 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, theme
                             setActive(false)
                             }}></input>
                 </Html>
-                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ fontColor } font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
                   { displayText }
                   <meshBasicMaterial toneMapped={false}/>
                   </Text>
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
             <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 
-                <meshStandardMaterial color={ backgroundColor ? backgroundColor : defaultBG} ref={ meshRef } />
+                <meshStandardMaterial color={ fontBackgroundColor } ref={ meshRef } />
             </RoundedBox>
             </mesh>
         </animated.group>
