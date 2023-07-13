@@ -99,9 +99,9 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
   if (height && height > 5) height = 5;
 
   // DEFAULT DIMENSIONS OF BOX GEO
-  const boxHeight = height ? height : 1.5;
-  const boxWidth = width ? width : 10;
-  const boxDepth = 0.2;
+  const boxHeight = height ? height : 3;
+  const boxWidth = width ? width : 15;
+  const boxDepth = 0.4;
 
   // GET CAMERA AND CANVAS INFO
   const { camera }: { camera: PerspectiveCamera } = useThree();
@@ -191,13 +191,13 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
                             setActive(false)
                             }}></input>
                 </Html>
-                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ fontColor } font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 1} position-x={textPosition} anchorX='left' color={ fontColor } font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
                   { displayText }
                   <meshBasicMaterial toneMapped={false}/>
                   </Text>
             </mesh>
             <mesh receiveShadow position-z={ -.3 } ref = { boxRef }>
-            <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4}> 
+            <RoundedBox receiveShadow args={ [boxWidth, boxHeight, boxDepth] } smoothness={4} radius={0.2}> 
                 <meshStandardMaterial color={ fontBackgroundColor } ref={ meshRef } />
             </RoundedBox>
             </mesh>

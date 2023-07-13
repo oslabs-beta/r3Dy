@@ -62,7 +62,7 @@ const slideAnimation = useSpring<SlideAnimationProps>({
 
   return (
     <group {...props} dispose={null}>
-      <group scale={props.size ? .08*props.size : .08} rotation-y={.01} position-x={2}>
+      <group scale={props.size ? .055*props.size : .055} rotation-y={.01} position-x={2}>
         <pointLight
           intensity={1}
           decay={3}
