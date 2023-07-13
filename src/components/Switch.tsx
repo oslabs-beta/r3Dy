@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, Ref } from 'react';
 import { OrbitControls, Shadow, Cylinder } from "@react-three/drei"
 import { useSpring, animated, config } from '@react-spring/three'
-import { MeshStandardMaterial } from 'three';
+import { MeshStandardMaterial, Group, Mesh, Material, BufferGeometry } from 'three';
 import { SoftShadows } from "@react-three/drei"
  
  
@@ -20,8 +20,8 @@ export default function Switch({color, size, callback}: SwitchProps) {
  
     const [active, setActive] = useState(false);
  
-    const cube = useRef();
-    const group = useRef();
+    const cube = useRef<Mesh<BufferGeometry, Material | Material[]>>(null!);
+  const group = useRef<Group>(null!);
  
     const metallicMaterial = new MeshStandardMaterial({
         color: color ? color: 'silver',
@@ -58,7 +58,7 @@ export default function Switch({color, size, callback}: SwitchProps) {
             setActive(!active)
         }
  
-        callback()
+        return callback ? callback() : null
     }
  
  
