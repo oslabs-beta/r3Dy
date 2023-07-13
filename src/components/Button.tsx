@@ -1,9 +1,17 @@
-import { useState, useRef } from 'react'
-import { RoundedBox, OrbitControls, Text, useHelper } from "@react-three/drei"
-import { MeshStandardMaterial } from 'three';
-import * as THREE from 'three'
+import { ReactElement, useState } from 'react'
+import { RoundedBox, Text } from "@react-three/drei"
+
+type ButtonProps = {
+    scale?: number,
+    color?: string,
+    hoverColor?: string,
+    text?: string,
+    fontSize?: number,
+    fontColor?: string,
+    handleClick?: any // check this
+}
  
-export default function Button(props) {
+export default function Button(props: ButtonProps): ReactElement {
     const [hover, setHover] = useState(false);
     
     const scale = props.scale || 1;
@@ -12,21 +20,14 @@ export default function Button(props) {
     const text = props.text || 'BUTTON';
     const fontSize = props.fontSize || .5;
     const fontColor = props.fontColor || '#ffffff'
-    const handleClick = props.handleClick || null;
+    const handleClick = props.handleClick || undefined;
 
-    // const directionalLight = useRef();
-    // useHelper(directionalLight, THREE.DirectionalLightHelper, .5)
-
-    // calculate button dimensions based on text length and font size 
     const buttonWidth = text.length * fontSize * 1.1; 
     const buttonHeight = fontSize * 2.8; 
 
     return <>
-        {/* <OrbitControls /> */}
-        
         <ambientLight intensity={1}/>
         <directionalLight 
-            // ref={directionalLight} 
             position={[-.5, .8, 3]} 
             intensity={1} 
             castShadow 
@@ -34,8 +35,8 @@ export default function Button(props) {
         />
         <group
             scale={scale}
-            onPointerOver={(event) => setHover(true)}
-            onPointerOut={(event) => setHover(false)}
+            onPointerOver={() => setHover(true)}
+            onPointerOut={() => setHover(false)}
             rotation-y={ hover ? Math.PI * .13 : 0}
             onClick={handleClick}
         >
