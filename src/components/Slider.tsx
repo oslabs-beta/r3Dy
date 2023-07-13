@@ -1,13 +1,17 @@
-import { OrbitControls, Text } from "@react-three/drei"
+import { OrbitControls, Text, RoundedBox } from "@react-three/drei"
 import * as THREE from "three";
 // import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
 import { useThree } from "react-three-fiber"
 import { useGesture } from "@use-gesture/react"
 import { useSpring, animated } from '@react-spring/three'
+import { useState, useRef } from "react";
+import { useFrame } from "react-three-fiber";
+import React from "react";
+
 
 type SliderProps = {
-    maxValue?: number
-    value: number;
+    maxValue?: number;
+    value?: number;
     steps?: number;
     onChange: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -18,6 +22,8 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     const spaces = max/spacing // how many ticks there are
     const xIncrements = Math.round(12/(spaces+1)*10) //Hown many x values the ticks are space out
     console.log(xIncrements)
+    const [outline, setOutline] = useState(false)
+
     const valueArray:number[] = []
         for (let i = 0; i<spaces+1; i++){
             valueArray.push(max-i*spacing)
@@ -31,12 +37,15 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     const [spring, set] = useSpring(() => ({ scale: [1, 1, 1], position: [0, 0, 0], rotation: [0, 0, 0],
       //  config:{friction: 1}
       }))
-    const bind = useGesture({
+      console.log(outline)
+    const bind:any = useGesture({
       onDrag: ({ offset: [x, y] }) =>{
         const newX = Math.round(x/aspect*10)
         if(spaces%2!==0){
             if(newX % xIncrements === 0 && newX !== 0){
                 if(newX/xIncrements<0){
+                    console.log(x)
+                    console.log(xIncrements)
                     onChange(valueArray[newX/xIncrements + (spaces+1)/2])
                 }else{
                     onChange(valueArray[newX/xIncrements + (spaces+1)/2 - 1])
@@ -50,9 +59,17 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
             }
         }
     },
-      onHover: ({ hovering }) => set({ scale: hovering ? [1.2, 1.2, 1.2] : [1, 1, 1] })
+      onHover: ({ hovering }) => {
+        hovering? setOutline(true) : setOutline(false)
+        set({scale: hovering ?  [1.2,1.2,1.2]:[1,1,1]})
+    }
     })
-    // console.log(spring.position)
+    const wireframeRef = useRef<any>();
+    useFrame(()=>{
+        if(outline){
+            wireframeRef.current ? wireframeRef.current.rotation.y += .01 : null
+        }
+    })
 
     // const {position} = useControls({
     //     position:{
@@ -62,24 +79,29 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     //         step: 1
     //     }
     // })
-// console.log(...spring)
     return(
     <>
     {/* <OrbitControls makeDefault={ true }/> */}
-        <group>
-            <primitive object={new THREE.AxesHelper(10)} />
-            
-            <mesh scale={ 3 }>
+        <group  >
+            {/* <primitive object={new THREE.AxesHelper(10)} /> */}
+            <RoundedBox args={[3.9, .2, 0]} position={[0,0,-2]} radius={0.1} scale={4}>
+                <meshBasicMaterial color={"#3F37C9"} />
+            </RoundedBox> 
+            {/* <mesh position={[0,0,-2]} scale={ 4 }>
                 <planeGeometry args ={[3.9,.25]} />
-                <meshBasicMaterial wireframe={ false } color={ 'red' } />
-            </mesh>
-            <animated.mesh  {...spring as any} {...bind()} castShadow>
+                <meshBasicMaterial wireframe={ false } color={ '#3F37C9' } />
+            </mesh> */}
+            {outline && <animated.mesh {...spring as any} {...bind()} ref={wireframeRef} scale={1.3}  castShadow>
                 <sphereGeometry args ={[1,32,16]} />
-                <meshBasicMaterial wireframe={ false } color={ 'aqua' } />
+                <meshBasicMaterial wireframe={ true } color={ 'white' } />
+            </animated.mesh>}
+            <animated.mesh {...spring as any} {...bind()} castShadow>
+                <sphereGeometry args ={[1,32,16]} />
+                <meshBasicMaterial wireframe={ false } color={ '#3F37C9' } />
             </animated.mesh>
             <animated.mesh  {...spring as any} {...bind()}>
-                <Text fontSize={.5}  castShadow position-y={1.5}  color={'black'} font={'fonts/Inter-Bold.ttf'}  overflowWrap='break-word'>{value}</Text>
-                <meshBasicMaterial wireframe={ false } color={ 'black' } />
+                <Text fontSize={.5}  castShadow position-y={1.5}  color={'#3F37C9'} font={'fonts/Inter-Bold.ttf'}  overflowWrap='break-word'>{value}</Text>
+                <meshBasicMaterial wireframe={ false } color={ '#3F37C9' } />
             </animated.mesh>
         </group>
     </>
