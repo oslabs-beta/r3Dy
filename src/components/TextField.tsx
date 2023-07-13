@@ -68,7 +68,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
   const boxRef = useRef<Mesh>(null!);
   const groupRef = useRef<Group>(null!);
   const lightRef = useRef<DirectionalLight>(null!);
-
+  const textRef = useRef<Text>(null!);
 
   // HELPER TO DISPLAY LIGHT POSITION
   // useHelper(lightRef, DirectionalLightHelper, 2)
@@ -77,6 +77,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
   if (height && height > 5) height = 5;
 
   // DEFAULT DIMENSIONS OF BOX GEO
+  console.log(textRef.current)
   const boxHeight = height ? height : 1.5;
   const boxWidth = width ? width : 10;
   const boxDepth = 0.2;
@@ -135,7 +136,6 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
 
 
   // HANDLE FUNCTIONS
-
   const handleKeyUp = (e: React.FormEvent<HTMLInputElement>): void => {
     if (e.currentTarget.selectionStart) setCaretIndex(e.currentTarget.selectionStart);
   }
@@ -157,7 +157,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
   
   return (
     <>
-    {/* <OrbitControls /> */}
+    <OrbitControls />
     <directionalLight
           intensity={0.7}
           position={[5, 2, 5]}
@@ -167,7 +167,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
         />
     <ambientLight intensity={1} color="#E6F0FF" />
         <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} >
-            <mesh castShadow>
+            <mesh castShadow >
                 <Html center >
                     <input onKeyUp={handleKeyUp} type="text" style={inputStyles} onChange={handleType} onFocus={() => {
                         handleFocus()
@@ -177,7 +177,7 @@ const TextField = ({color, width, height, backgroundColor, font, fontSize, onCha
                             setActive(false)
                             }}></input>
                 </Html>
-                <Text castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 0.5} position-x={textPosition} anchorX='left' color={ color ? color : 'black'} font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
                 { displayText }
                 <meshBasicMaterial toneMapped={false}/>
                 </Text>
