@@ -6,7 +6,7 @@ import Button from './components/Button';
 import TextField from './components/TextField';
 import Loader from './components/Loader';
 import { Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshToonMaterial } from 'three';
-import Slider from './components/Slider';
+import Slider from './components/Slider'
 import Switch from './components/Switch';
 import { Perf } from 'r3f-perf'
 
@@ -19,11 +19,20 @@ type camConfig = {
 
 export default function App() {
 
-  const camConfig: camConfig = { fov: 75, near: 0.1, far: 1000, position: [0, 0, 5] }
-
+  const [slider, setSlider] = useState(0);
   return (
-    <Canvas shadows camera={camConfig}>
-      <Perf/>
+    <Canvas 
+    camera = { {
+      near:.1,
+      far:200,
+      position: [0, 0, 8]
+    } }
+    >
+      <Slider
+      onChange={setSlider}
+      // maxValue={10}
+      // steps={2}
+      value={slider} />
     </Canvas>
   )
 }

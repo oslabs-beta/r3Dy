@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "removeComments": true,
-    "types": ["cypress", "node"],
+    "types": ["cypress", "@4tw/cypress-drag-drop", "node"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
