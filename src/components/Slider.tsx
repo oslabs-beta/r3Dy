@@ -6,7 +6,7 @@ import { useGesture } from "@use-gesture/react"
 import { useSpring, animated } from '@react-spring/three'
 import { useState, useRef } from "react";
 import { useFrame } from "react-three-fiber";
-import { attribute } from "three/examples/jsm/nodes/Nodes.js";
+import React from "react";
 
 
 type SliderProps = {
