@@ -1,8 +1,7 @@
-import React, { useRef, useState, Ref } from 'react';
-import { OrbitControls, Shadow, Cylinder } from "@react-three/drei"
-import { useSpring, animated, config } from '@react-spring/three'
+import  { useRef, useState } from 'react';
+import { useSpring, animated} from '@react-spring/three'
 import { MeshStandardMaterial, Group, Mesh, Material, BufferGeometry } from 'three';
-import { SoftShadows } from "@react-three/drei"
+
  
  
  
@@ -35,11 +34,6 @@ export default function Switch({color, size, callback}: SwitchProps) {
         roughness: .2,
       });
  
-    const { scale } = useSpring({
-        scale: active ? 1.5 : 1,
-        config: { tension: 1100, friction: 45 },
-    })
- 
     const animation = useSpring({
         'rotation-x': active ? Math.PI/5 : -Math.PI/5,
         config: { tension: 900, friction: 45 }
@@ -47,19 +41,14 @@ export default function Switch({color, size, callback}: SwitchProps) {
  
  
     function clicked(): void {
-        setActive(!active)
-        if(!active) {
-        //group.current.rotation.x += Math.PI/2
-            setActive(!active)
+        if (callback) {
+          setActive(!active);
+          console.log('hello test');
+          if (!active) {
+            callback();
+          }
         }
- 
-        if(active) {
-        //group.current.rotation.x -= Math.PI/2
-            setActive(!active)
-        }
- 
-        return callback ? callback() : null
-    }
+      }
  
  
  
@@ -72,7 +61,7 @@ export default function Switch({color, size, callback}: SwitchProps) {
             <directionalLight castShadow position={ [ -5, 5, 2 ] } intensity={ 1 } shadow-mapSize={1024}/>
             <directionalLight castShadow position={ [ 5, -5, 2 ] } intensity={ 1 } />
             {/* <directionalLight position={ [ -8, 7, 9 ] } intensity={ 1 } /> */}
-        <animated.group ref={ group } rotation-x={animation['rotation-x']} position-z={-.2} scale={size ? size : 1}>
+        <animated.group ref={ group } rotation-x={animation['rotation-x']} position-z={-.2} scale={size ? size : 1} >
             <animated.mesh   
             onClick={clicked}
                 ref={cube}
