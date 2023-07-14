@@ -5,8 +5,6 @@ import { expect, jest, test, describe } from '@jest/globals';
 import { act } from '@testing-library/react';
 
 
-
-
 describe('Switch', () => {
   test('component does render', async () => {
     const renderer = await ReactThreeTestRenderer.create(<Switch />);
