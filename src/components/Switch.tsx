@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import  { useRef, useState } from 'react';
 import { useSpring, animated} from '@react-spring/three'
 import { MeshStandardMaterial, Group, Mesh, Material, BufferGeometry } from 'three';
-
+import React from 'react';
  
  
  

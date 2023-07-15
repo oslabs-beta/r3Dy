@@ -1,7 +1,9 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import React, { useRef } from "react";
 import { useGLTF, useMatcapTexture } from "@react-three/drei";
 import { useFrame } from '@react-three/fiber'
-import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group} from "three";
+import { MeshDistanceMaterial, MeshMatcapMaterial, MeshPhysicalMaterial, Group} from "three";
 
 type LoaderProps = {
   color?: string;
@@ -21,7 +23,7 @@ type LoaderProps = {
 
 export default function ChipLoader(props: LoaderProps) {
 
-  const chips = React.useRef<Group>(null);
+  const chips = useRef() as any;
 
  // props.theme indicates a default light or dark mode --- color
 

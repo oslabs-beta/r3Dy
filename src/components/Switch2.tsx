@@ -1,9 +1,9 @@
-import React, { useRef, useState, Ref, useEffect } from 'react';
-import { OrbitControls, Shadow, Cylinder, useGLTF, SoftShadows, OrthographicCamera } from "@react-three/drei"
-import { useSpring, animated, config, SpringValue, SpringConfig, interpolate } from '@react-spring/three'
-import { MeshStandardMaterial, Group, Mesh, Material, BufferGeometry, Vector3, Raycaster, Vector2, MeshPhysicalMaterial } from 'three';
-import { useThree } from '@react-three/fiber';
- 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useRef, useState } from 'react';
+import { useGLTF, OrthographicCamera } from "@react-three/drei"
+import { useSpring, animated, SpringConfig, interpolate } from '@react-spring/three'
+import { MeshStandardMaterial, Mesh, Material, BufferGeometry, Vector3, MeshPhysicalMaterial } from 'three';
+import React from 'react';
  
  
  
@@ -23,7 +23,7 @@ type SlideAnimationProps = {
 
 export default function Switch2(props: SwitchProps) {
   const [active, setActive] = useState(false);
-  const { nodes, materials } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/switch.gltf") as any;
+  const { nodes } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/switch.gltf") as any;
   console.log(nodes.Text.material)
   nodes.Text_2.material.color.r=1
   nodes.Text_2.material.color.g=0

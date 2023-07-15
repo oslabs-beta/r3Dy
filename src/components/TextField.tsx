@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { useState, useRef, useEffect} from 'react'
 import { Text, Html, RoundedBox} from '@react-three/drei'
@@ -112,6 +113,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
     const boxPositionZ: number = boxRef.current.position.z;
     const camDist: number = camPositionZ - boxPositionZ;
     setDist(camDist);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[boxRef])
 
   // MATH TO GET TEXT WIDTH AND HEIGHT

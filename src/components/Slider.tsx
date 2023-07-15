@@ -1,6 +1,6 @@
-import { OrbitControls, Text, RoundedBox } from "@react-three/drei"
-import * as THREE from "three";
-// import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Text, RoundedBox } from "@react-three/drei"
 import { useThree } from "react-three-fiber"
 import { useGesture } from "@use-gesture/react"
 import { useSpring, animated } from '@react-spring/three'
@@ -20,7 +20,7 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     const max = maxValue ? maxValue: 10 //max value
     const spacing = steps ? steps: 2//increments
     const spaces = max/spacing // how many ticks there are
-    const xIncrements = Math.round(12/(spaces+1)*10) //Hown many x values the ticks are space out
+    const xIncrements = Math.round(12/(spaces+1)*10) //How many x values the ticks are space out
     console.log(xIncrements)
     const [outline, setOutline] = useState(false)
 
@@ -39,7 +39,7 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
       }))
       console.log(outline)
     const bind:any = useGesture({
-      onDrag: ({ offset: [x, y] }) =>{
+      onDrag: ({ offset: [x] }) =>{
         const newX = Math.round(x/aspect*10)
         if(spaces%2!==0){
             if(newX % xIncrements === 0 && newX !== 0){

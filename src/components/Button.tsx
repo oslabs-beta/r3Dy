@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactElement, useState } from 'react'
 import { RoundedBox, Text } from "@react-three/drei"
 import { useSpring, animated, config } from '@react-spring/three'
-
+import React from 'react';
 type ButtonProps = {
-    scale?: number,
-    color?: string,
-    hoverColor?: string,
-    text?: string,
-    fontSize?: number,
-    fontColor?: string,
-    handleClick?: any // check this
+    scale?: number;
+    color?: string;
+    hoverColor?: string;
+    text?: string;
+    fontSize?: number;
+    fontColor?: string;
+    handleClick?: any;
 }
  
 export default function Button(props: ButtonProps): ReactElement {

@@ -1,7 +1,9 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, PerspectiveCamera, useMatcapTexture } from "@react-three/drei";
-import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, MeshBasicMaterialParameters, Material, Group } from "three";
+import {MeshDistanceMaterial,  MeshMatcapMaterial, MeshPhysicalMaterial, Group } from "three";
 
 
 type LoaderProps = {
@@ -26,7 +28,7 @@ export default function HexagonLoader( props: LoaderProps ) {
 
   // color, material, speed, scale//100
 const scale: number = props.scale ? props.scale/85 : 0.01
-const loader = React.useRef<Group>(null);
+const loader = useRef() as any;
 const material = props.material || MeshMatcapMaterial
 const speed: number = props.speed || 5
 const rotationAxis: string = props.rotationAxis || 'y'

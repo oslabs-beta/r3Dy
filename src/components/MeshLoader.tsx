@@ -1,7 +1,9 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import React, { useRef } from "react";
 import { useGLTF, useMatcapTexture } from "@react-three/drei";
 import { useFrame } from '@react-three/fiber'
-import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group } from "three";
+import { MeshDistanceMaterial, MeshMatcapMaterial, MeshPhysicalMaterial, Group } from "three";
 
 type LoaderProps = {
   color?: string;
@@ -23,7 +25,7 @@ type LoaderProps = {
 
 export default function MeshLoader(props: LoaderProps) {
   
-  const model = React.useRef<Group>(null);
+  const model = useRef() as any;
 
 const scale: number = props.scale ? props.scale/50 : 0.025
 const material = props.material || MeshMatcapMaterial
