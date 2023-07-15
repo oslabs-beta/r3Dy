@@ -21,7 +21,7 @@ type SlideAnimationProps = {
  
 
 
-export default function Switch2(props: SwitchProps) {
+export default function SlideSwitch(props: SwitchProps) {
   const [active, setActive] = useState(false);
   const { nodes } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/switch.gltf") as any;
   console.log(nodes.Text.material)
