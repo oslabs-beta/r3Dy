@@ -8,8 +8,6 @@ import { act } from '@testing-library/react';
 describe('Switch', () => {
   test('component does render', async () => {
     const renderer = await ReactThreeTestRenderer.create(<Switch />);
-    console.log(renderer.scene._fiber.children[4].scale)
-    
   });
 });
 

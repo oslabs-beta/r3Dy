@@ -43,7 +43,6 @@ export default function Switch({color, size, callback}: SwitchProps) {
     function clicked(): void {
         if (callback) {
           setActive(!active);
-          console.log('hello test');
           if (!active) {
             callback();
           }
