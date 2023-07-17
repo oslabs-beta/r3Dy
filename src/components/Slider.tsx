@@ -21,31 +21,24 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     const spacing = steps ? steps: 2//increments
     const spaces = max/spacing // how many ticks there are
     const xIncrements = Math.round(12/(spaces+1)*10) //How many x values the ticks are space out
-    console.log(xIncrements)
     const [outline, setOutline] = useState(false)
 
     const valueArray:number[] = []
         for (let i = 0; i<spaces+1; i++){
             valueArray.push(max-i*spacing)
         }
-    console.log(valueArray)
     valueArray.sort((a,b)=>{return a-b})
-    console.log(valueArray)
-
     const { size, viewport } = useThree()
     const aspect = size.width / viewport.width
     const [spring, set] = useSpring(() => ({ scale: [1, 1, 1], position: [0, 0, 0], rotation: [0, 0, 0],
       //  config:{friction: 1}
       }))
-      console.log(outline)
     const bind:any = useGesture({
       onDrag: ({ offset: [x] }) =>{
         const newX = Math.round(x/aspect*10)
         if(spaces%2!==0){
             if(newX % xIncrements === 0 && newX !== 0){
                 if(newX/xIncrements<0){
-                    console.log(x)
-                    console.log(xIncrements)
                     onChange(valueArray[newX/xIncrements + (spaces+1)/2])
                 }else{
                     onChange(valueArray[newX/xIncrements + (spaces+1)/2 - 1])
