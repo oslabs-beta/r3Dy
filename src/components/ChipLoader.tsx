@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import { useGLTF, useMatcapTexture } from "@react-three/drei";
 import { useFrame } from '@react-three/fiber'
-import { MeshDistanceMaterial, MeshMatcapMaterial, MeshPhysicalMaterial, Group} from "three";
+import { MeshDistanceMaterial, MeshMatcapMaterial, MeshPhysicalMaterial } from "three";
 
 type LoaderProps = {
   color?: string;
@@ -18,6 +18,7 @@ type LoaderProps = {
   wireframe?: boolean;
   matcapIndex?: number;
   matcapSize?: 64 | 128 | 256 | 512 | 1024;
+  position?: [number, number, number];
 }
 
 
@@ -27,6 +28,7 @@ export default function ChipLoader(props: LoaderProps) {
 
  // props.theme indicates a default light or dark mode --- color
 
+const position: [number, number, number] = props.position || [0,0,0];
 const scale: number = props.scale ? props.scale/100 : 0.01
 const material = props.material || MeshMatcapMaterial
 const speed: number = props.speed || 5
@@ -86,8 +88,11 @@ useFrame((state, delta) => {
 
 
 
-
-  
+if (chips.current) {
+chips.current.position.x = position[0];
+chips.current.position.y = position[1];
+chips.current.position.z = position[2];  
+}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { nodes } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/chipLoader.gltf") as any;

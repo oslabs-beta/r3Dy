@@ -1,7 +1,7 @@
 {
   "name": "r3dy",
   "private": false,
-  "version": "1.1.6",
+  "version": "1.1.7",
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
@@ -10,12 +10,14 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "license": "MIT",
+  "author": "Alec Jessen, Garrett Woo, Bryan Trang, Nick King, Corso Rosati",
+  "keywords": ["3D, Component Library, React"],
   "dependencies": {
     "@react-spring/three": "^9.7.3",
     "@react-three/drei": "^9.77.7",
     "@react-three/fiber": "^8.13.4",
     "@use-gesture/react": "^10.2.27",
-    "react-three-fiber": "^6.0.13",
     "three": "^0.154.0"
   },
   "peerDependencies": {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import SlideSwitch from './SlideSwitch'
 import FlickSwitch from './FlickSwitch'
@@ -11,6 +12,9 @@ type SwitchProps = {
     slideColor?: string;
     tension?: number;
     model?: number;
+    positionX?: number;
+    positionY?: number;
+    positionZ?: number;
 }
 
 
@@ -24,3 +28,4 @@ export default function Loader(props: SwitchProps) {
         return <ChipLoader {...props} />
     }
 }
+

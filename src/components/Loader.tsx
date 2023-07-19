@@ -16,6 +16,7 @@ type LoaderProps = {
     wireframe?: boolean;
     matcapIndex?: number;
     matcapSize?: 64 | 128 | 256 | 512 | 1024;
+    position?: [number, number, number];
   }
 
 
