@@ -44,16 +44,18 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
       onDrag: ({ offset: [x, y] }) =>{
         const newX = Math.round(x/aspect*10)
         if(spaces%2!==0){
-            if(newX % xIncrements === 0 && newX !== 0){
-                if(newX/xIncrements<0){
+            if(newX % xIncrements === 0 && newX !== 0 ){
+                if(newX/xIncrements<0 && (newX/xIncrements + (spaces+1)/2)>=0){
                     change(valueArray[newX/xIncrements + (spaces+1)/2])
-                }else{
+                    set({ position: [x/ aspect, y*0, 0]})
+                }else if (newX/xIncrements>0 && (newX/xIncrements + (spaces+1)/2 - 1) < valueArray.length){
                     change(valueArray[newX/xIncrements + (spaces+1)/2 - 1])
+                    set({ position: [x/ aspect, y*0, 0]})
+
                 }
-                set({ position: [x/ aspect, y*0, 0]})
             }
         } else{
-            if(newX % xIncrements === 0){
+            if(newX % xIncrements === 0 && (newX/xIncrements + spaces/2)>=0 && (newX/xIncrements + spaces/2) < valueArray.length){
                 change(valueArray[newX/xIncrements + spaces/2])
                 set({ position: [x/ aspect, y*0, 0]})
             }
@@ -61,7 +63,7 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     },
       onHover: ({ hovering }) => {
         hovering? setOutline(true) : setOutline(false)
-        set({scale: hovering ?  [1.2,1.2,1.2]:[1,1,1]})
+        set({scale: hovering ?  [1.2,1.2,1.2]:[1.0,1.0,1.0]})
     }
     })
     const wireframeRef = useRef<any>();
