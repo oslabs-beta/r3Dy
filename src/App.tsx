@@ -22,11 +22,17 @@ type camConfig = {
 export default function App() {
 
   const camConfig: camConfig = { fov: 75, near: 0.1, far: 1000, position: [0, 0, 5] }
-
+  const [slider, setSlider] = useState(0);
   return (
-    <Canvas shadows camera={camConfig}>
-      <Perf/>
-      <Button />
+    <Canvas 
+    camera = { camConfig }
+    >
+      <Slider 
+      // onChange={setSlider}
+      // maxValue={10}
+      // steps={2}
+      // value={slider} 
+      />
     </Canvas>
   )
 }
