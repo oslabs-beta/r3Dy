@@ -136,7 +136,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
   const inputStyles: InputField = {
     width: `${textPixelWidth}px`,
     height: `${textPixelHeight}px`,
-    opacity: 0.5,
+    opacity: 0,
   }
 
   // SET ROTATION Y AND X VALUES FOR GROUP

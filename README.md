@@ -9,7 +9,7 @@
 
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-[![Documentation](https://img.shields.io/badge/Read%20our%20Documentation-black?logo=book)](www.r3dyui.com/docs)
+[![Documentation](https://img.shields.io/badge/Read%20our%20Documentation-black?logo=book)](https://www.r3dyui.com/docs)
 
 </div>
 
@@ -20,11 +20,11 @@ R3DY UI is fully compatible with any React project, including additional framewo
 
 ## Components
 The library comes with 5 prebuilt components which can be modified through a series of properties.
-- [Switch](www.r3dyui.com/docs/components/switch)
-- [Button](www.r3dyui.com/docs/components/button)
-- [Slider](www.r3dyui.com/docs/components/slider)
-- [Loader](www.r3dyui.com/docs/components/loader)
-- [Text Field](www.r3dyui.com/docs/components/textfield)
+- [Switch](https://www.r3dyui.com/docs/components/switch)
+- [Button](https://www.r3dyui.com/docs/components/button)
+- [Slider](https://www.r3dyui.com/docs/components/slider)
+- [Loader](https://www.r3dyui.com/docs/components/loader)
+- [Text Field](https://www.r3dyui.com/docs/components/textfield)
 
 If you'd like to see a new component, head over to [The R3DY UI issues page](https://github.com/oslabs-beta/r3Dy/issues) to add your suggestions!
 
@@ -69,10 +69,10 @@ Pull requests are welcome. For major changes, please [open an issue](https://git
 Please make sure to update tests as appropriate.
 
 ## Documentation
-Our full documentation can be found [here](www.r3dyui.com/docs).
+Our full documentation can be found [here](https://www.r3dyui.com/docs).
 
 ## Contributing
-We value our contributors. [Read more about us.](www.r3dyui.com/about-us)
+We value our contributors. [Read more about us.](https://www.r3dyui.com/about-us)
 
 <img src="https://i.imgur.com/5cXAg9j.jpg" height="200" alt="contributors" />
 

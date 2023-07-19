@@ -12,6 +12,8 @@ type SwitchProps = {
     slideColor?: string;
     tension?: number;
     model?: number;
+    onColor?: string;
+    offColor?: string;
     positionX?: number;
     positionY?: number;
     positionZ?: number;
