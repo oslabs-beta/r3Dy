@@ -194,7 +194,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
                             setActive(false)
                             }}></input>
                 </Html>
-                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 1} position-x={textPosition} anchorX='left' color={ fontColor } font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 1} position-x={textPosition} anchorX='left' color={ fontColor } font={font ? font : '/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
                   { displayText }
                   <meshBasicMaterial toneMapped={false}/>
                   </Text>
