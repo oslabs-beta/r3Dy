@@ -1,25 +1,81 @@
-## R3DY UI 
+<br/>
+<div align="center">
+  <a href="www.r3dyui.com">
+    <img src="https://i.imgur.com/mXk9ke7.jpeg" height="350" align="center" alt="header" />
+  </a>
+  <br/>
+  <br/>
 
-R3DY UI is a component library that allows developers to import 3D components into their existing products. Typically, implementing 3D components requires extensive knowledge of a 3D library, however, with R3DY UI the process is streamlined and simple to understand. With this library, you will be able to import sliders, text fields, switches, buttons as well as loaders seamlessly and without any previous 3D experience. 
+
+![License](https://img.shields.io/badge/License-MIT-blue)
+
+[![Documentation](https://img.shields.io/badge/Read%20our%20Documentation-black?logo=book)](www.r3dyui.com/docs)
+
+</div>
 
 
-https://github.com/oslabs-beta/r3Dy-Web/assets/128100544/39f32103-2ab1-4c56-841a-323f2211b14b
+R3DY UI is an open source React Library that contains a number of 3D components. With R3DY, you import your 3D components just like any other React component. These components are interactive and can be implemented with little to no knowledge of 3D rendering.
 
+R3DY UI is fully compatible with any React project, including additional frameworks such as NextJS and Remix.
 
-## Getting Started
+## Components
+The library comes with 5 prebuilt components which can be modified through a series of properties.
+- [Switch](www.r3dyui.com/docs/components/switch)
+- [Button](www.r3dyui.com/docs/components/button)
+- [Slider](www.r3dyui.com/docs/components/slider)
+- [Loader](www.r3dyui.com/docs/components/loader)
+- [Text Field](www.r3dyui.com/docs/components/textfield)
 
-```npm install r3dy```
+If you'd like to see a new component, head over to [The R3DY UI issues page](https://github.com/oslabs-beta/r3Dy/issues) to add your suggestions!
 
+## Installation
+
+Use the package manager [npm](https://www.npmjs.com/) to install R3DY UI.
+
+```bash
+npm install r3dy
+```
 Once you've installed the npm package, its time to add a component to your project. In the code snipped below, you can see how this is implemented.
 
+## Usage Example
 
-![Screen Shot 2023-07-18 at 5 25 37 PM](https://github.com/oslabs-beta/r3Dy-Web/assets/128100544/b75fbe71-98e2-46e4-aab4-78a30b773027)
+```javascript
+import { Canvas } from '@react-three/fiber'
+import { TextField } from 'r3dy'
 
-However, there are a few things you will want to note. First - You want to make sure that you have imported the necessary dependencies. Import the desired component from r3dy as well as Canvas from @react-three/fiber. Afterward, you need to include the 'use client' at the top of the page. Now that you've included dependencies, wrap your component in a Canvas tag. Make sure to include shadows in the canvas tag or they will not show up.
+# returns 'a react component containing the r3dy element'
+export default function myComponent() {
+  return (
+    <div>
+      <Canvas shadows>
+         <TextField/>
+      </Canvas>
+    </div>
+  )
+}
+```
 
-  Note: As you can see, I have nested the Canvas in 2 divs. The first div is meant to contain the Canvas. By nature, Canvas will try to fill as much space as allowed. If it is not nested in a div and you have any sort of margin or padding, it will constantly expand to fit those margins. The second div is used to adjust the placement of the first. As mentioned, Canvas took up the entire space of the first div. Now that it's contained, you will need another to move it about the page.
+NOTE: You want to make sure that you have imported the necessary dependencies. Import the desired component from `r3dy` as well as `Canvas` from `@react-three/fiber`. Now that you've included dependencies, wrap your component in a `Canvas` tag. Make sure to include `shadows` in the `Canvas` tag or they will not show up.
 
-#How to Contribute
+The `div` is meant to contain the `Canvas`. By nature, `Canvas` will try to fill as much space as allowed. If it is not nested in a `div` and you have any sort of margin or padding, it will constantly expand to fit those margins.
 
-If you like what we are doing with R3DY UI and want to contribute, feel free to fork R3DY UI and submit a pull request!
-If you have any feedback/issues please submit one! Any and all feedback/issues are important to us!
+## Contributing
+R3DY UI is an open-source product maintained by OS Labs, an open-source tech accelerator.
+
+We welcome contributions and feedback from the community to make R3DY UI even better. If you're interested in simplifying 3D in your React projects, check out our [documentation](www.r3dyui.com/docs) and join us on this exciting journey!
+
+Pull requests are welcome. For major changes, please [open an issue](https://github.com/oslabs-beta/r3Dy/issues) first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## Documentation
+Our full documentation can be found [here](www.r3dyui.com/docs).
+
+## Contributing
+We value our contributors. [Read more about us.](www.r3dyui.com/about-us)
+
+<img src="https://i.imgur.com/5cXAg9j.jpg" height="200" alt="contributors" />
+
+## License
+
+[MIT]()
