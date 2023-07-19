@@ -45,7 +45,7 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
         if(spaces%2!==0){
             if(newX % xIncrements === 0 && newX !== 0){
                 if(newX/xIncrements<0){
-                    onChange(valueArray[newX/xIncrements + (spaces+1)/2])
+                    change(valueArray[newX/xIncrements + (spaces+1)/2])
                 }else{
                     change(valueArray[newX/xIncrements + (spaces+1)/2 - 1])
                 }
