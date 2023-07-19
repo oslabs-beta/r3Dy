@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <Canvas>
-      <Switch model={1}/>
+      <Loader color='red' />
     </Canvas>
   )
 }

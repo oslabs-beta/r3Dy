@@ -1,7 +1,9 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, PerspectiveCamera, useMatcapTexture } from "@react-three/drei";
-import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, MeshBasicMaterialParameters, Material, Group } from "three";
+import {MeshDistanceMaterial,  MeshMatcapMaterial, MeshPhysicalMaterial, Group } from "three";
 
 
 type LoaderProps = {
@@ -17,6 +19,7 @@ type LoaderProps = {
   wireframe?: boolean;
   matcapIndex?: number;
   matcapSize?: 64 | 128 | 256 | 512 | 1024;
+  position?: [number, number, number];
 }
 
 
@@ -25,8 +28,9 @@ export default function HexagonLoader( props: LoaderProps ) {
 
 
   // color, material, speed, scale//100
+const position: [number, number, number] = props.position || [0,0,0];
 const scale: number = props.scale ? props.scale/85 : 0.01
-const loader = React.useRef<Group>(null);
+const loader = useRef() as any;
 const material = props.material || MeshMatcapMaterial
 const speed: number = props.speed || 5
 const rotationAxis: string = props.rotationAxis || 'y'
@@ -82,6 +86,12 @@ useFrame((state, delta) => {
     }
   }
 });
+
+if (loader.current) {
+  loader.current.position.x = position[0];
+  loader.current.position.y = position[1];
+  loader.current.position.z = position[2];  
+  }
 
 
 
