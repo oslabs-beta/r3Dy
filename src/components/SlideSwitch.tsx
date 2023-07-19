@@ -14,6 +14,11 @@ type SwitchProps = {
     callback?: any;
     slideColor?: string;
     tension?: number;
+    onColor?: string;
+    offColor?: string;
+    positionX?: number;
+    positionY?: number;
+    positionZ?: number;
 }
  
 type SlideAnimationProps = {
@@ -52,7 +57,9 @@ const slideAnimation = useSpring<SlideAnimationProps>({
   });
 
   const rectangleMaterial = new MeshStandardMaterial({color: props.mainColor ? props.mainColor : '#1B263B', roughness: 0.4, metalness: .2});
-  const slideMaterial = new MeshPhysicalMaterial({color: props.slideColor ? props.slideColor : '#DDDFE1', roughness: .4, metalness: .5, clearcoat: 1})
+  const slideMaterial = new MeshPhysicalMaterial({color: props.slideColor ? props.slideColor : '#4CC9F0', roughness: .4, metalness: .5, clearcoat: 1})
+  const onMaterial = new MeshPhysicalMaterial({color:props.onColor ? props.onColor : '#4CC9F0', roughness: .4, metalness: .5, clearcoat: 1})
+  const offMaterial = new MeshPhysicalMaterial({color:props.offColor ? props.offColor : '#778DA9', roughness: .4, metalness: .5, clearcoat: 1})
   const slideAnimationPosition = interpolate(
     slideAnimation.position,
     (x: number, y: number, z: number) => new Vector3(x, y, z)
@@ -61,7 +68,7 @@ const slideAnimation = useSpring<SlideAnimationProps>({
 
   return (
     <group {...props} dispose={null}>
-      <group scale={props.size ? .055*props.size : .055} rotation-y={.01} position-x={2}>
+      <group scale={props.size ? .055*props.size : .055} rotation-y={.01} position-x={props.positionX ? props.positionX + 2 : 2} position-y={props.positionY ? props.positionY  : 0} position-z={props.positionZ ? props.positionZ : 0}>
         <pointLight
           intensity={1}
           decay={3}
@@ -84,14 +91,14 @@ const slideAnimation = useSpring<SlideAnimationProps>({
           castShadow
           receiveShadow
           geometry={nodes.Text_2.geometry}
-          material={nodes.Text_2.material}
+          material={offMaterial}
           position={[4.551, 7.283, 7.538]}
         />
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.Text.geometry}
-          material={nodes.Text.material}
+          material={onMaterial}
           
           position={[-60.549, 7.283, 7.203]}
         />
@@ -128,4 +135,4 @@ const slideAnimation = useSpring<SlideAnimationProps>({
 useGLTF.preload("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/switch.gltf");
 
 
-// position={[-55.685, 6.186, 4.592]}
+// position={[-55.685, 6.186, 4.592]}// position={[-55.685, 6.186, 4.592]}

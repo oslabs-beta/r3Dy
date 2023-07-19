@@ -17,6 +17,7 @@ type TextFieldProps = {
     font?: string,
     fontSize?: number,
     theme?: string,
+    position?: [number, number, number];
     onChange?: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
@@ -63,7 +64,7 @@ const newShade = (hexColor: string, magnitude: number): string => {
 };
 
 // COMPONENT FUNC DEFINITION START
-const TextField = ({color, focusColor, width, height, backgroundColor, font, fontSize, theme, onChange}: TextFieldProps): JSX.Element => {
+const TextField = ({color, focusColor, width, height, backgroundColor, font, fontSize, theme, position, onChange}: TextFieldProps): JSX.Element => {
   
   // STATES
   const [type, setType] = useState('');
@@ -135,7 +136,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
   const inputStyles: InputField = {
     width: `${textPixelWidth}px`,
     height: `${textPixelHeight}px`,
-    opacity: 0,
+    opacity: 0.5,
   }
 
   // SET ROTATION Y AND X VALUES FOR GROUP
@@ -182,7 +183,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
           shadow-mapSize={[ 1024, 1024 ]}
         />
     <ambientLight intensity={1} color="#E6F0FF" />
-        <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} >
+        <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} position={position ? position : [0,0,0]} >
             <mesh castShadow >
                 <Html center >
                     <input onKeyUp={handleKeyUp} type="text" style={inputStyles} onChange={handleType} onFocus={() => {

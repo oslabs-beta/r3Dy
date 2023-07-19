@@ -12,12 +12,15 @@ type SwitchProps = {
     size?: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     callback?: any;
+    positionX?: number;
+    positionY?: number;
+    positionZ?: number;
 }
  
  
  
  
-export default function FlickSwitch({color, size, callback}: SwitchProps) {
+export default function FlickSwitch({color, size, callback, positionX, positionY, positionZ}: SwitchProps) {
  
     const [active, setActive] = useState(false);
  
@@ -65,7 +68,7 @@ export default function FlickSwitch({color, size, callback}: SwitchProps) {
             <directionalLight castShadow position={ [ -5, 5, 2 ] } intensity={ 1 } shadow-mapSize={1024}/>
             <directionalLight castShadow position={ [ 5, -5, 2 ] } intensity={ 1 } />
             {/* <directionalLight position={ [ -8, 7, 9 ] } intensity={ 1 } /> */}
-        <animated.group ref={ group } rotation-x={animation['rotation-x']} position-z={-.2} scale={size ? size : 1} >
+        <animated.group ref={ group } rotation-x={animation['rotation-x']} position-z={positionZ ? positionZ - .2 : -.2} position-x={positionX ? positionX : 0} position-y={positionY ? positionY : 0} scale={size ? size : 1} >
             <animated.mesh   
             onClick={clicked}
                 ref={cube}
@@ -97,6 +100,9 @@ export default function FlickSwitch({color, size, callback}: SwitchProps) {
             material={metallicMaterial}
             scale={size ? size : 1}
             receiveShadow castShadow
+            position-z={positionZ ? positionZ : 0}
+            position-x={positionX ? positionX : 0}
+            position-y={positionY ? positionY : 0}
             >
                 <torusGeometry args={[1.1, .4, 4, 200]} />
             </mesh>
@@ -104,7 +110,7 @@ export default function FlickSwitch({color, size, callback}: SwitchProps) {
                 <planeGeometry />
                 <meshStandardMaterial  color={'rgb(34, 40, 64)'} />
             </mesh> */}
-            <mesh scale={size ? size*2 : 2} position-z={.01} material={metallicMaterial2}>
+            <mesh scale={size ? size*2 : 2} position-z={positionZ ? positionZ + .01 : .01} position-x={positionX ? positionX : 0} position-y={positionY ? positionY : 0} material={metallicMaterial2}>
                 <planeGeometry />
                 <meshBasicMaterial  color={'grey'} />
             </mesh>
