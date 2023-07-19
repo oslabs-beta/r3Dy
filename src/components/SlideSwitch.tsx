@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useState } from 'react';
 import { useGLTF, OrthographicCamera } from "@react-three/drei"

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Text, RoundedBox } from "@react-three/drei"
 // import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
 import { useThree, useFrame } from "@react-three/fiber"
@@ -18,7 +19,7 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     const max = maxValue ? maxValue: 10 //max value
     const spacing = steps ? steps: 2//increments
     const spaces = max/spacing // how many ticks there are
-    const xIncrements = Math.round(12/(spaces+1)*10) //Hown many x values the ticks are space out
+    const xIncrements = Math.round(12/(spaces+1)*10) //How many x values the ticks are space out
     const [slider, setSlider] = useState(0)
     let change:any;
     if(onChange){

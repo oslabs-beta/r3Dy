@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <Canvas>
-      <Loader color='red' />
+      <Slider />
     </Canvas>
   )
 }

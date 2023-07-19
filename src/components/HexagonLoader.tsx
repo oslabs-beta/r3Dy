@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, PerspectiveCamera, useMatcapTexture } from "@react-three/drei";
-import {MeshDistanceMaterial,  MeshMatcapMaterial, MeshPhysicalMaterial, Group } from "three";
+import {MeshDistanceMaterial,  MeshMatcapMaterial, MeshPhysicalMaterial } from "three";
 
 
 type LoaderProps = {
