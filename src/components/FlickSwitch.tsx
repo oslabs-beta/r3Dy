@@ -5,7 +5,7 @@ import { MeshStandardMaterial, Group, Mesh, Material, BufferGeometry } from 'thr
 import React from 'react';
  
  
- 
+ //typing for the passable props
  
 type SwitchProps = {
     color?: string;
@@ -21,30 +21,30 @@ type SwitchProps = {
  
  
 export default function FlickSwitch({color, size, callback, positionX, positionY, positionZ}: SwitchProps) {
- 
+ //state to handle the flicking of the switch as well as turning on the callback
     const [active, setActive] = useState(false);
- 
+ //use refs to select certain portions of the switch to be animated
     const cube = useRef<Mesh<BufferGeometry, Material | Material[]>>(null!);
   const group = useRef<Group>(null!);
- 
+ //color used for the switch
     const metallicMaterial = new MeshStandardMaterial({
         color: color ? color: 'silver',
         metalness: 1,
         roughness: .41,
       });
- 
+ //older material used before. Can ignore
       const metallicMaterial2 = new MeshStandardMaterial({
         color: color ? color : 'silver',
         metalness: 1,
         roughness: .2,
       });
- 
+ //how the switch 'flicks'
     const animation = useSpring({
         'rotation-x': active ? Math.PI/5 : -Math.PI/5,
         config: { tension: 900, friction: 45 }
     })
  
- 
+ //onClick function that is used to set state as well as invoke the callback
     function clicked(): void {
         if (callback) {
           setActive(!active);
@@ -58,6 +58,16 @@ export default function FlickSwitch({color, size, callback, positionX, positionY
       }
  
  
+ //this is where the actual switch is created and deployed. 
+
+ //all of the lights are used to illuminate the scene and to create satisfying shadows. play with the positions to see different angles. Even try commenting out some to see what it looks like with less light sources. 
+
+ //the animated group is the portion of the switch that moves when it is clicked. 
+
+ //below are the base of the switch. They are the outer ring and a dark plane that is used to fill in some empty spots. 
+
+ //please checkout THREE.js and react-three-fiber documentation as well. They will give you more insight on how you could further customize these meshes, materials, lights and cameras. 
+
  
  
     return (
