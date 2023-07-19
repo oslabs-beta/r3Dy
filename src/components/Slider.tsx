@@ -1,11 +1,9 @@
-import { OrbitControls, Text, RoundedBox } from "@react-three/drei"
-import * as THREE from "three";
+import { Text, RoundedBox } from "@react-three/drei"
 // import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
-import { useThree } from "react-three-fiber"
+import { useThree, useFrame } from "@react-three/fiber"
 import { useGesture } from "@use-gesture/react"
 import { useSpring, animated } from '@react-spring/three'
 import { useState, useRef } from "react";
-import { useFrame } from "react-three-fiber";
 import React from "react";
 
 
@@ -13,7 +11,7 @@ type SliderProps = {
     maxValue?: number;
     value?: number;
     steps?: number;
-    onChange: React.Dispatch<React.SetStateAction<number>>;
+    onChange?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
@@ -21,6 +19,13 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     const spacing = steps ? steps: 2//increments
     const spaces = max/spacing // how many ticks there are
     const xIncrements = Math.round(12/(spaces+1)*10) //Hown many x values the ticks are space out
+    const [slider, setSlider] = useState(0)
+    let change:any;
+    if(onChange){
+        change = onChange
+    } else{
+        change = setSlider
+    }
     console.log(xIncrements)
     const [outline, setOutline] = useState(false)
 
@@ -46,16 +51,16 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
                 if(newX/xIncrements<0){
                     console.log(x)
                     console.log(xIncrements)
-                    onChange(valueArray[newX/xIncrements + (spaces+1)/2])
+                    change(valueArray[newX/xIncrements + (spaces+1)/2])
                 }else{
-                    onChange(valueArray[newX/xIncrements + (spaces+1)/2 - 1])
+                    change(valueArray[newX/xIncrements + (spaces+1)/2 - 1])
                 }
-                set({ position: [x/ aspect, 0, 0]})
+                set({ position: [x/ aspect, y*0, 0]})
             }
         } else{
             if(newX % xIncrements === 0){
-                onChange(valueArray[newX/xIncrements + spaces/2])
-                set({ position: [x/ aspect, 0, 0]})
+                change(valueArray[newX/xIncrements + spaces/2])
+                set({ position: [x/ aspect, y*0, 0]})
             }
         }
     },
@@ -84,9 +89,7 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
     {/* <OrbitControls makeDefault={ true }/> */}
         <group  >
             {/* <primitive object={new THREE.AxesHelper(10)} /> */}
-            <RoundedBox args={[3.9, .2, 0]} position={[0,0,-2]} radius={0.1} scale={4}>
-                <meshBasicMaterial color={"#3F37C9"} />
-            </RoundedBox> 
+            
             {/* <mesh position={[0,0,-2]} scale={ 4 }>
                 <planeGeometry args ={[3.9,.25]} />
                 <meshBasicMaterial wireframe={ false } color={ '#3F37C9' } />
@@ -99,8 +102,11 @@ export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
                 <sphereGeometry args ={[1,32,16]} />
                 <meshBasicMaterial wireframe={ false } color={ '#3F37C9' } />
             </animated.mesh>
+            <RoundedBox args={[3.9, .2, 0]} position={[0,0,-2]} radius={0.1} scale={4}>
+                <meshBasicMaterial color={"#3F37C9"} />
+            </RoundedBox> 
             <animated.mesh  {...spring as any} {...bind()}>
-                <Text fontSize={.5}  castShadow position-y={1.5}  color={'#3F37C9'} font={'fonts/Inter-Bold.ttf'}  overflowWrap='break-word'>{value}</Text>
+                <Text fontSize={.5}  castShadow position-y={1.5}  color={'#3F37C9'} font={'fonts/Inter-Bold.ttf'}  overflowWrap='break-word'>{value? value:slider}</Text>
                 <meshBasicMaterial wireframe={ false } color={ '#3F37C9' } />
             </animated.mesh>
         </group>
