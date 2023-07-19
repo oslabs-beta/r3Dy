@@ -15,7 +15,7 @@ type SliderProps = {
 }
 
 export default function Slider({maxValue, value, steps, onChange}:SliderProps) {
-    const max = maxValue ? maxValue: 12 //max value
+    const max = maxValue ? maxValue: 10 //max value
     const spacing = steps ? steps: 2//increments
     const spaces = max/spacing // how many ticks there are
     const xIncrements = Math.round(12/(spaces+1)*10) //Hown many x values the ticks are space out
