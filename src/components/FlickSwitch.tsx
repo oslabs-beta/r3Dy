@@ -10,6 +10,7 @@ import React from 'react';
 type SwitchProps = {
     color?: string;
     size?: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     callback?: any;
 }
  
@@ -47,6 +48,9 @@ export default function FlickSwitch({color, size, callback}: SwitchProps) {
           if (!active) {
             callback();
           }
+        }
+        if (!callback) {
+            setActive(!active)
         }
       }
  
