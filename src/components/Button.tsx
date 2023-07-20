@@ -34,8 +34,8 @@ export default function Button(props: ButtonProps): ReactElement {
     const buttonHeight = fontSize * 2.7; 
 
   const {rotationY, rotationX} = useSpring({ 
-    rotationX: hover ? -0.1 : 0,
-    rotationY: hover ? -0.2 : 0,
+    rotationX: hover ? -0.15 : 0,
+    rotationY: hover ? -0.25 : 0,
     config: config.wobbly,
   })
 
@@ -53,6 +53,8 @@ export default function Button(props: ButtonProps): ReactElement {
             scale={scale}
             onPointerOver={() => setHover(true)}
             onPointerOut={() => setHover(false)}
+            onPointerDown={() => setHover(true)}
+            onPointerUp={() => setHover(false)}
             onClick={handleClick}
             rotation-y={rotationY} 
             rotation-x={rotationX}
