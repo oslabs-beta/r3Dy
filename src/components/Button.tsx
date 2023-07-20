@@ -7,6 +7,7 @@ type ButtonProps = {
     scale?: number;
     color?: string;
     hoverColor?: string;
+    font?: string;
     text?: string;
     fontSize?: number;
     fontColor?: string;
@@ -62,7 +63,7 @@ export default function Button(props: ButtonProps): ReactElement {
                 </RoundedBox>
             </mesh>
             <Text 
-                font={'/Inter-Bold.ttf'} 
+                font={font} 
                 fontSize={fontSize} 
                 color={fontColor} 
                 position-z={.3}
