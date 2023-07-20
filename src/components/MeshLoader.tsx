@@ -1,7 +1,9 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import React, { useRef } from "react";
 import { useGLTF, useMatcapTexture } from "@react-three/drei";
 import { useFrame } from '@react-three/fiber'
-import {MeshBasicMaterial, MeshDepthMaterial, MeshDistanceMaterial, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Group } from "three";
+import { MeshDistanceMaterial, MeshMatcapMaterial, MeshPhysicalMaterial } from "three";
 
 type LoaderProps = {
   color?: string;
@@ -16,6 +18,7 @@ type LoaderProps = {
   wireframe?: boolean;
   matcapIndex?: number;
   matcapSize?: 64 | 128 | 256 | 512 | 1024;
+  position?: [number, number, number];
 }
 
 
@@ -23,8 +26,9 @@ type LoaderProps = {
 
 export default function MeshLoader(props: LoaderProps) {
   
-  const model = React.useRef<Group>(null);
+  const model = useRef() as any;
 
+const position: [number, number, number] = props.position || [0,0,0];
 const scale: number = props.scale ? props.scale/50 : 0.025
 const material = props.material || MeshMatcapMaterial
 const speed: number = props.speed || 5
@@ -87,6 +91,12 @@ useFrame((state, delta) => {
     }
   }
 });
+
+if (model.current) {
+  model.current.position.x = position[0];
+  model.current.position.y = position[1];
+  model.current.position.z = position[2];  
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { nodes } = useGLTF("https://raw.githubusercontent.com/alecjessen/r3dy-static/main/meshLoader.gltf") as any;

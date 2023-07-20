@@ -1,8 +1,7 @@
-import React from 'react'
+import React from 'react';
 import ChipLoader from './ChipLoader'
 import HexagonLoader from './HexagonLoader'
 import MeshLoader from './MeshLoader'
-
 type LoaderProps = {
     color?: string;
     scale?: number;
@@ -17,6 +16,7 @@ type LoaderProps = {
     wireframe?: boolean;
     matcapIndex?: number;
     matcapSize?: 64 | 128 | 256 | 512 | 1024;
+    position?: [number, number, number];
   }
 
 

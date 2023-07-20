@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { useState, useRef, useEffect} from 'react'
 import { Text, Html, RoundedBox} from '@react-three/drei'
@@ -16,6 +17,7 @@ type TextFieldProps = {
     font?: string,
     fontSize?: number,
     theme?: string,
+    position?: [number, number, number];
     onChange?: (e: React.FormEvent<HTMLInputElement>) => void
 }
 
@@ -62,7 +64,7 @@ const newShade = (hexColor: string, magnitude: number): string => {
 };
 
 // COMPONENT FUNC DEFINITION START
-const TextField = ({color, focusColor, width, height, backgroundColor, font, fontSize, theme, onChange}: TextFieldProps): JSX.Element => {
+const TextField = ({color, focusColor, width, height, backgroundColor, font, fontSize, theme, position, onChange}: TextFieldProps): JSX.Element => {
   
   // STATES
   const [type, setType] = useState('');
@@ -112,6 +114,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
     const boxPositionZ: number = boxRef.current.position.z;
     const camDist: number = camPositionZ - boxPositionZ;
     setDist(camDist);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[boxRef])
 
   // MATH TO GET TEXT WIDTH AND HEIGHT
@@ -133,7 +136,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
   const inputStyles: InputField = {
     width: `${textPixelWidth}px`,
     height: `${textPixelHeight}px`,
-    opacity: 0,
+    opacity: 0.5,
   }
 
   // SET ROTATION Y AND X VALUES FOR GROUP
@@ -180,7 +183,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
           shadow-mapSize={[ 1024, 1024 ]}
         />
     <ambientLight intensity={1} color="#E6F0FF" />
-        <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} >
+        <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} position={position ? position : [0,0,0]} >
             <mesh castShadow >
                 <Html center >
                     <input onKeyUp={handleKeyUp} type="text" style={inputStyles} onChange={handleType} onFocus={() => {
@@ -191,7 +194,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
                             setActive(false)
                             }}></input>
                 </Html>
-                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 1} position-x={textPosition} anchorX='left' color={ fontColor } font={font ? font : 'fonts/Inter-Bold.ttf'} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
+                  <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 1} position-x={textPosition} anchorX='left' color={ fontColor } font={font ? font : undefined} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
                   { displayText }
                   <meshBasicMaterial toneMapped={false}/>
                   </Text>

@@ -1,24 +1,32 @@
-import { ReactElement, useState } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ReactElement, useState, useRef } from 'react'
 import { RoundedBox, Text } from "@react-three/drei"
 import { useSpring, animated, config } from '@react-spring/three'
-
+import React from 'react';
 type ButtonProps = {
-    scale?: number,
-    color?: string,
-    hoverColor?: string,
-    text?: string,
-    fontSize?: number,
-    fontColor?: string,
-    handleClick?: any // check this
+    scale?: number;
+    color?: string;
+    hoverColor?: string;
+    text?: string;
+    font?: string;
+    fontSize?: number;
+    fontColor?: string;
+    handleClick?: any;
+    position?: [number, number, number];
 }
  
 export default function Button(props: ButtonProps): ReactElement {
+
+    const buttonRef = useRef() as any; 
+
     const [hover, setHover] = useState(false);
     
+    const position = props.position || [0,0,0];
     const scale = props.scale || 2;
     const color = props.color || '#3F37C9';
     const hoverColor = props.hoverColor || '#272275';
     const text = props.text || 'BUTTON';
+    const font = props.font || undefined;
     const fontSize = props.fontSize || .5;
     const fontColor = props.fontColor || '#ffffff'
     const handleClick = props.handleClick || undefined;
@@ -32,7 +40,15 @@ export default function Button(props: ButtonProps): ReactElement {
     config: config.wobbly,
   })
 
+  if (buttonRef.current) {
+    buttonRef.current.position.x = position[0];
+    buttonRef.current.position.y = position[1];
+    buttonRef.current.position.z = position[2];
+  }
+
+
     return <>
+    <group ref={buttonRef} >
         <ambientLight intensity={1}/>
         <animated.group
             scale={scale}
@@ -48,7 +64,7 @@ export default function Button(props: ButtonProps): ReactElement {
                 </RoundedBox>
             </mesh>
             <Text 
-                font={'fonts/Inter-Bold.ttf'} 
+                font={font} 
                 fontSize={fontSize} 
                 color={fontColor} 
                 position-z={.3}
@@ -57,5 +73,6 @@ export default function Button(props: ButtonProps): ReactElement {
                 {text}
             </Text>
         </animated.group>
+        </group>
     </>
 }

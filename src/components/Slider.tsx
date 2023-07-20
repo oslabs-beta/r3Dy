@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Text, RoundedBox } from "@react-three/drei"
 // import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
 import { useThree, useFrame } from "@react-three/fiber"

@@ -8,8 +8,8 @@ import Loader from './components/Loader';
 import { Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshToonMaterial } from 'three';
 import Slider from './components/Slider';
 import Switch from './components/Switch';
+import Switch2 from './components/Switch2';
 import { Perf } from 'r3f-perf'
-import LogoLoader from './components/LogoLoader'
 import { OrbitControls } from "@react-three/drei"
 
 type camConfig = {
@@ -21,18 +21,9 @@ type camConfig = {
 
 export default function App() {
 
-  const camConfig: camConfig = { fov: 75, near: 0.1, far: 1000, position: [0, 0, 5] }
-  const [slider, setSlider] = useState(0);
   return (
-    <Canvas 
-    camera = { camConfig }
-    >
-      <Slider 
-      // onChange={setSlider}
-      // maxValue={10}
-      // steps={2}
-      // value={slider} 
-      />
+    <Canvas>
+      <Button />
     </Canvas>
   )
 }
