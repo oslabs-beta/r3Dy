@@ -8,6 +8,7 @@ type ButtonProps = {
     color?: string;
     hoverColor?: string;
     text?: string;
+    font?: string;
     fontSize?: number;
     fontColor?: string;
     handleClick?: any;
@@ -25,6 +26,7 @@ export default function Button(props: ButtonProps): ReactElement {
     const color = props.color || '#3F37C9';
     const hoverColor = props.hoverColor || '#272275';
     const text = props.text || 'BUTTON';
+    const font = props.font || undefined;
     const fontSize = props.fontSize || .5;
     const fontColor = props.fontColor || '#ffffff'
     const handleClick = props.handleClick || undefined;
@@ -62,7 +64,7 @@ export default function Button(props: ButtonProps): ReactElement {
                 </RoundedBox>
             </mesh>
             <Text 
-                font={'/Inter-Bold.ttf'} 
+                font={font} 
                 fontSize={fontSize} 
                 color={fontColor} 
                 position-z={.3}

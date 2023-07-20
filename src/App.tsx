@@ -23,8 +23,7 @@ export default function App() {
 
   return (
     <Canvas>
-      <Switch model={2} positionY={0}/>
-      {/* <Slider/> */}
+      <Button />
     </Canvas>
   )
 }
