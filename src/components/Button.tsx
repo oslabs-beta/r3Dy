@@ -63,7 +63,7 @@ export default function Button(props: ButtonProps): ReactElement {
                 </RoundedBox>
             </mesh>
             <Text 
-                font={font} 
+                font={font ? font : undefined} 
                 fontSize={fontSize} 
                 color={fontColor} 
                 position-z={.3}
