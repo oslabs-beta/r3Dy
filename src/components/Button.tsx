@@ -6,7 +6,7 @@ import React from 'react';
 type ButtonProps = {
     scale?: number;
     color?: string;
-    hoverColor?: string;
+    activeColor?: string;
     font?: string;
     text?: string;
     fontSize?: number;
@@ -24,7 +24,7 @@ export default function Button(props: ButtonProps): ReactElement {
     const position = props.position || [0,0,0];
     const scale = props.scale || 2;
     const color = props.color || '#3F37C9';
-    const hoverColor = props.hoverColor || '#272275';
+    const activeColor = props.activeColor || '#272275';
     const text = props.text || 'BUTTON';
     const fontSize = props.fontSize || .5;
     const fontColor = props.fontColor || '#ffffff'
@@ -61,7 +61,7 @@ export default function Button(props: ButtonProps): ReactElement {
         >
              <mesh >
                 <RoundedBox args={[buttonWidth, buttonHeight, .5]} radius={.2}>
-                    <meshStandardMaterial color={hover ? hoverColor : color}/>
+                    <meshStandardMaterial color={hover ? activeColor : color}/>
                 </RoundedBox>
             </mesh>
             <Text 

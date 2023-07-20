@@ -1,7 +1,7 @@
 {
-  "name": "r3dy",
+  "name": "r3dynew",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.8",
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
