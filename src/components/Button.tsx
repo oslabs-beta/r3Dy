@@ -51,8 +51,6 @@ export default function Button(props: ButtonProps): ReactElement {
         <ambientLight intensity={1}/>
         <animated.group
             scale={scale}
-            onPointerOver={() => setHover(true)}
-            onPointerOut={() => setHover(false)}
             onPointerDown={() => setHover(true)}
             onPointerUp={() => setHover(false)}
             onClick={handleClick}
