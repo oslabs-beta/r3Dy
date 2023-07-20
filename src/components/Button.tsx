@@ -29,7 +29,7 @@ export default function Button(props: ButtonProps): ReactElement {
     const fontSize = props.fontSize || .5;
     const fontColor = props.fontColor || '#ffffff'
     const handleClick = props.handleClick || undefined;
-
+    const font = props.font || undefined;
     const buttonWidth = text.length * fontSize * 1.1; 
     const buttonHeight = fontSize * 2.7; 
 
@@ -63,7 +63,7 @@ export default function Button(props: ButtonProps): ReactElement {
                 </RoundedBox>
             </mesh>
             <Text 
-                font={font ? font : undefined} 
+                font={font} 
                 fontSize={fontSize} 
                 color={fontColor} 
                 position-z={.3}
