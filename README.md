@@ -14,7 +14,7 @@
 </div>
 
 
-R3DY UI is an open source React Library that contains a number of 3D components. With R3DY, you import your 3D components just like any other React component. These components are interactive and can be implemented with little to no knowledge of 3D rendering.
+R3DY UI, an open-source React Library, offers an array of 3D components. With R3DY, you import your 3D components just like any other React component. These components are interactive and can be implemented with little to no knowledge of 3D rendering.
 
 R3DY UI is fully compatible with any React project, including additional frameworks such as NextJS and Remix.
 
