@@ -79,3 +79,14 @@ We value our contributors. [Read more about us.](https://www.r3dyui.com/about-us
 ## License
 
 [MIT](https://github.com/oslabs-beta/r3Dy/blob/dev/LICENSE.txt)
+
+
+## Tech Stack
+React, Three JS, React Three Fiber,React Three Drei, React Three Spring, React Three Renderer, Typescript, Javascript, Jest, Vite
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Threejs](https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white)
+![React Three Fiber](https://img.shields.io/badge/react-three-fiber)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Javascript](https://img.shields.io/badge/javascript-yellow?style=for-the-badge&logo=javascript)
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
