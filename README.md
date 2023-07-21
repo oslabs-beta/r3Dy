@@ -79,3 +79,16 @@ We value our contributors. [Read more about us.](https://www.r3dyui.com/about-us
 ## License
 
 [MIT](https://github.com/oslabs-beta/r3Dy/blob/dev/LICENSE.txt)
+
+##Tech Stack
+Threejs
+React Three Fiber
+React Three Drei
+React
+Vite
+Typescript
+Jest
+React-Three-Renderer
+HTML
+
+
