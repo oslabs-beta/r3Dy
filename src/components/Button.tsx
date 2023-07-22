@@ -6,7 +6,7 @@ import React from 'react';
 type ButtonProps = {
     scale?: number;
     color?: string;
-    hoverColor?: string;
+    activeColor?: string;
     text?: string;
     font?: string;
     fontSize?: number;
@@ -24,7 +24,7 @@ export default function Button(props: ButtonProps): ReactElement {
     const position = props.position || [0,0,0];
     const scale = props.scale || 2;
     const color = props.color || '#3F37C9';
-    const hoverColor = props.hoverColor || '#272275';
+    const activeColor = props.activeColor || '#272275';
     const text = props.text || 'BUTTON';
     const font = props.font || undefined;
     const fontSize = props.fontSize || .5;
@@ -35,8 +35,8 @@ export default function Button(props: ButtonProps): ReactElement {
     const buttonHeight = fontSize * 2.7; 
 
   const {rotationY, rotationX} = useSpring({ 
-    rotationX: hover ? -0.1 : 0,
-    rotationY: hover ? -0.2 : 0,
+    rotationX: hover ? -0.15 : 0,
+    rotationY: hover ? -0.25 : 0,
     config: config.wobbly,
   })
 
@@ -52,15 +52,15 @@ export default function Button(props: ButtonProps): ReactElement {
         <ambientLight intensity={1}/>
         <animated.group
             scale={scale}
-            onPointerOver={() => setHover(true)}
-            onPointerOut={() => setHover(false)}
+            onPointerDown={() => setHover(true)}
+            onPointerUp={() => setHover(false)}
             onClick={handleClick}
             rotation-y={rotationY} 
             rotation-x={rotationX}
         >
              <mesh >
                 <RoundedBox args={[buttonWidth, buttonHeight, .5]} radius={.2}>
-                    <meshStandardMaterial color={hover ? hoverColor : color}/>
+                    <meshStandardMaterial color={hover ? activeColor : color}/>
                 </RoundedBox>
             </mesh>
             <Text 
