@@ -14,6 +14,7 @@
 ![Javascript](https://img.shields.io/badge/javascript-yellow?style=for-the-badge&logo=javascript)
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+<br/>
 [![Documentation](https://img.shields.io/badge/Read%20our%20Documentation-black?logo=book)](https://www.r3dyui.com/docs/)
 
 </div>
