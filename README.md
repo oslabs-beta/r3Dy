@@ -65,6 +65,17 @@ NOTE: You want to make sure that you have imported the necessary dependencies. I
 
 The `div` is meant to contain the `Canvas`. By nature, `Canvas` will try to fill as much space as allowed. If it is not nested in a `div` and you have any sort of margin or padding, it will constantly expand to fit those margins.
 
+## Roadmap
+This is just the beginning for R3DY UI, and we’re committed to improving the library further. Our upcoming enhancements include improvements to Text Fields, Sliders, Loaders, and overall performance optimizations. We’re excited to introduce even more 3D components that cover common use cases, making 3D accessible and enjoyable for all developers.
+
+- Text Field improvements including the ability to prevent overflow in the field box
+- Slider improvements including the ability to adjust default styling
+- Additional Loader options and styling capabilities
+- Ability to display icons on Buttons
+- R3DY UI Yarn package
+- Overall performance improvements and bug fixes for existing components
+- A new pre-built 3D Form component
+
 ## Contributing
 R3DY UI is an open-source product maintained by OS Labs, an open-source tech accelerator.
 
