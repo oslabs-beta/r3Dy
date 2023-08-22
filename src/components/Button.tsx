@@ -2,7 +2,7 @@
 import { ReactElement, useState, useRef } from 'react'
 import { RoundedBox, Text } from "@react-three/drei"
 import { useSpring, animated, config } from '@react-spring/three'
-import React from 'react';
+
 type ButtonProps = {
     scale?: number;
     color?: string;
