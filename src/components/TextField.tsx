@@ -114,6 +114,7 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
     const boxPositionZ: number = boxRef.current.position.z;
     const camDist: number = camPositionZ - boxPositionZ;
     setDist(camDist);
+    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[boxRef])
 
@@ -186,13 +187,20 @@ const TextField = ({color, focusColor, width, height, backgroundColor, font, fon
         <animated.group ref= { groupRef } rotation-y={rotationY} rotation-x={rotationX} position={position ? position : [0,0,0]} >
             <mesh castShadow >
                 <Html center >
-                    <input onKeyUp={handleKeyUp} type="text" style={inputStyles} onChange={handleType} onFocus={() => {
-                        handleFocus()
-                        setActive(true)
-                        }} onBlur={() => {
-                            handleUnfocused()
-                            setActive(false)
-                            }}></input>
+                    <input 
+                    onKeyUp={handleKeyUp} 
+                    type="text" 
+                    style={inputStyles} 
+                    onChange={handleType} 
+                    onFocus={() => {
+                      handleFocus()
+                      setActive(true)
+                      }} 
+                    onBlur={() => {
+                      handleUnfocused()
+                      setActive(false)
+                      }}>
+                    </input>
                 </Html>
                   <Text ref={textRef} castShadow fontSize={fontSize ? fontSize: 1} position-x={textPosition} anchorX='left' color={ fontColor } font={font ? font : undefined} maxWidth={boxWidth} textAlign='left' overflowWrap='break-word'>
                   { displayText }
