@@ -27,7 +27,8 @@ describe('Slider', () => {
 //       expect(onClickFunction).toBeDefined();
 //     });
 //   });
- 
+
+
 //   describe('Switch', () => {
 //     test('onClick function runs the callback if provided', async () => {
 //       // Create a mock callback function

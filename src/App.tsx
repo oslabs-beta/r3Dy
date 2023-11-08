@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <Canvas>
-      <Button />
+      <Loader />
     </Canvas>
   )
 }
