@@ -2,6 +2,7 @@ import React from 'react';
 import ChipLoader from './ChipLoader'
 import HexagonLoader from './HexagonLoader'
 import MeshLoader from './MeshLoader'
+
 type LoaderProps = {
     color?: string;
     scale?: number;

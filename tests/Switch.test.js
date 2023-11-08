@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactThreeTestRenderer from '@react-three/test-renderer';
+
 import Switch from '../src/components/Switch';
 import { expect, jest, test, describe } from '@jest/globals';
 import { act } from '@testing-library/react';
