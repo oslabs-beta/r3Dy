@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactElement, useState, useRef } from 'react'
 import { RoundedBox, Text } from "@react-three/drei"
 import { useSpring, animated, config } from '@react-spring/three'
 import React from 'react';
+
 type ButtonProps = {
     scale?: number;
     color?: string;
@@ -16,9 +16,7 @@ type ButtonProps = {
 }
  
 export default function Button(props: ButtonProps): ReactElement {
-
     const buttonRef = useRef() as any; 
-
     const [hover, setHover] = useState(false);
     
     const position = props.position || [0,0,0];
@@ -46,33 +44,32 @@ export default function Button(props: ButtonProps): ReactElement {
     buttonRef.current.position.z = position[2];
   }
 
-
-    return <>
-    <group ref={buttonRef} >
-        <ambientLight intensity={1}/>
-        <animated.group
-            scale={scale}
-            onPointerDown={() => setHover(true)}
-            onPointerUp={() => setHover(false)}
-            onClick={handleClick}
-            rotation-y={rotationY} 
-            rotation-x={rotationX}
-        >
-             <mesh >
-                <RoundedBox args={[buttonWidth, buttonHeight, .5]} radius={.2}>
-                    <meshStandardMaterial color={hover ? activeColor : color}/>
-                </RoundedBox>
-            </mesh>
-            <Text 
-                font={font} 
-                fontSize={fontSize} 
-                color={fontColor} 
-                position-z={.3}
+    return ( 
+        <group ref={buttonRef} >
+            <ambientLight intensity={1}/>
+            <animated.group
+                scale={scale}
+                onPointerDown={() => setHover(true)}
+                onPointerUp={() => setHover(false)}
+                onClick={handleClick}
+                rotation-y={rotationY} 
+                rotation-x={rotationX}
             >
-                <meshBasicMaterial toneMapped={false}/>
-                {text}
-            </Text>
-        </animated.group>
+                <mesh >
+                    <RoundedBox args={[buttonWidth, buttonHeight, .5]} radius={.2}>
+                        <meshStandardMaterial color={hover ? activeColor : color}/>
+                    </RoundedBox>
+                </mesh>
+                <Text 
+                    font={font} 
+                    fontSize={fontSize} 
+                    color={fontColor} 
+                    position-z={.3}
+                >
+                    <meshBasicMaterial toneMapped={false}/>
+                    {text}
+                </Text>
+            </animated.group>
         </group>
-    </>
+    )
 }
