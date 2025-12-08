@@ -2,6 +2,7 @@
 import React from 'react';
 import SlideSwitch from './SlideSwitch'
 import FlickSwitch from './FlickSwitch'
+import ChipLoader from './ChipLoader'
 
  
 type SwitchProps = {
@@ -30,4 +31,3 @@ export default function Loader(props: SwitchProps) {
         return <ChipLoader {...props} />
     }
 }
-

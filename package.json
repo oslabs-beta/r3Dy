@@ -1,27 +1,65 @@
 {
   "name": "r3dy",
   "private": false,
-  "version": "1.1.0",
-  "main": "dist/index.js",
+  "version": "1.2.0",
+  "type": "module",
+  "main": "./dist/r3dy.umd.cjs",
+  "module": "./dist/r3dy.js",
+  "exports": {
+    ".": {
+      "import": "./dist/r3dy.js",
+      "require": "./dist/r3dy.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
-    "prebuild": "rimraf dist",
-    "build": "vite build && tsc",
+    "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
-  "license": "MIT",
-  "author": "Alec Jessen, Garrett Woo, Bryan Trang, Nick King, Corso Rosati",
-  "keywords": ["3D, Component Library, React"],
   "dependencies": {
-    "@react-spring/three": "^9.7.3",
-    "@react-three/drei": "^9.77.7",
-    "@react-three/fiber": "^8.13.4",
+    "@babel/plugin-syntax-jsx": "^7.22.5",
+    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
+    "@react-spring/three": "^10.0.3",
+    "@react-three/fiber": "^9.0.0-rc.10",
+    "@react-three/drei": "^9.121.2-canary-test01.1",
+    "@testing-library/jest-dom": "^5.16.5",
     "@use-gesture/react": "^10.2.27",
-    "three": "^0.154.0"
+    "@vitejs/plugin-react": "^4.0.3",
+    "babel-jest": "^29.6.1",
+    "core-js": "^3.31.1",
+    "jest-environment-jsdom": "^29.6.1",
+    "leva": "^0.9.35",
+    "react": "^19.0.0-rc",
+    "react-dom": "^19.0.0-rc",
+    "resize-observer-polyfill": "^1.5.1",
+    "three": "^0.170.0",
+    "ts-jest": "^29.1.1"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": ">=18.0",
+    "react-dom": ">=18.0",
+    "@react-three/fiber": ">=8.0"
+  },
+  "devDependencies": {
+    "@react-three/test-renderer": "^8.1.5",
+    "@testing-library/react": "^14.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/three": "^0.170.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "jest": "^29.6.1",
+    "r3f-perf": "^7.1.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9"
   }
 }

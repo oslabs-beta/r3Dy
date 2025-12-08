@@ -1,14 +1,27 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES6",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "ES6"],
     "module": "ESNext",
-    "declaration": true,
-    "outDir": "./dist",
-    "strict": true,
-    "jsx": "react",
-    "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "noImplicitAny": true,
+    "removeComments": true,
+    "types": ["node", "jest"],
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "dist/types"
   },
-  "include": ["src"]
+  "include": ["src/index-lib.ts", "src/components/**/*.tsx", "src/**/*.d.ts", "vite-env.d.ts"],
+  "exclude": ["node_modules", "src/App.tsx", "src/index.tsx"]
 }
